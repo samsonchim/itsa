@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading...</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #1c2431;
+            color: white;
+            font-family: "Roboto Condensed", sans-serif;
+        }
+
+        .preloader {
+            text-align: center;
+        }
+
+        .preloader img {
+            width: 120px;
+            height: 120px;
+        }
+
+        .preloader .message {
+            margin-top: 20px;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="preloader">
+        <img src="loading.gif" alt="Loading...">
+        <div class="message" id="message">Preparing your Dashboard</div>
+    </div>
+    <script>
+        const messages = [
+            "Preparing your Dashboard...",
+            "Setting things up...",
+            "It's worth the wait...",
+            "One last thing..."
+        ];
+        let messageIndex = 0;
+        const messageElement = document.getElementById('message');
+
+        function showNextMessage() {
+            messageIndex++;
+            if (messageIndex < messages.length) {
+                messageElement.textContent = messages[messageIndex];
+            } else {
+                window.location.href = 'dashboard/admin_dashboard.php';
+            }
+        }
+
+        setInterval(showNextMessage, 3000);
+    </script>
+</body>
+</html>

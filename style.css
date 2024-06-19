@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+body{
+
+        font-family: "Roboto Condensed", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 59;
+        font-style: normal;
+      
+}
+
+.bg-custom {
+    background-image: url('images/bg-curvy-mobile.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top center;
+}
+@media (min-width: 768px) {
+    .bg-custom {
+        background-image: url('images/bg-curvy-desktop.svg');
+    }
+}
+
+
+nav,
+h1,
+h2, 
+button, 
+a {
+
+}
+
+p,
+li {
+
+}
+
+.image_s{
+    height: 50%;
+    width: 50%;
+}

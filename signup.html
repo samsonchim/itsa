@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="login.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Creating an account...</title>
+</head>
+<body>
+    <div class="main-login">
+    <div class="left-login">
+        <h1> Onboarding! <br> It's time to kick off<br></h1>
+        <img src="animacao.svg" class="left-login-image" alt="Animação">
+        <p class="terms">By creating an organisation account, you agree to our terms and conditions, cited <a href="">here</a></p>
+    </div>
+    <div class="right-login">
+        <div class="card-login">
+            <h1>Create an organisation account</h1>
+            <div id="errors"></div>
+            <div class="textfield">
+                <label for="organisation_name">Name of Organisation</label>
+                <input type="text" name="organisation_name" id="organisation_name" placeholder="Federal University of Technology, Owerri" required>
+            </div>
+            <div class="textfield">
+                <label for="company_email">Organisation's Email</label>
+                <input type="email" name="organisation_email" id="organisation_email" placeholder="admin@futo.edu.com" required>
+            </div>
+            <div class="textfield">
+                <label for="company_phone">Contact Phone Number</label>
+                <input type="text" name="organisation_phone" id="organisation_phone" placeholder="+2348012345678" required>
+            </div>
+
+            <div class="textfield">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <div id="strengthIndicator" class="strength-indicator"></div>
+            </div>
+            <button class="btn-login" id="createAccount">Create Account</button>
+            <a class="login" href="login.html">Login to Exising account</a>
+        </div>
+    </div>
+    <script>
+        document.getElementById('password').addEventListener('input', function () {
+            const password = this.value;
+            const strengthIndicator = document.getElementById('strengthIndicator');
+            const passwordField = document.getElementById('password');
+            let strength = 'very weak';
+
+            const hasNumber = /\d/;
+            const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/;
+            const hasAlpha = /[a-zA-Z]/;
+
+            if (password.length >= 8) {
+                if (hasNumber.test(password) && hasSpecialChar.test(password) && hasAlpha.test(password)) {
+                    strength = 'strong';
+                } else {
+                    strength = 'weak';
+                }
+            }
+
+            if (strength === 'very weak') {
+                passwordField.className = 'very-weak';
+                strengthIndicator.textContent = 'Very Weak, try adding a number';
+                strengthIndicator.className = 'strength-indicator very-weak-text';
+            } else if (strength === 'weak') {
+                passwordField.className = 'weak';
+                strengthIndicator.textContent = 'Weak, trying special characters';
+                strengthIndicator.className = 'strength-indicator weak-text';
+            } else if (strength === 'strong') {
+                passwordField.className = 'strong';
+                strengthIndicator.textContent = 'Strong, you are good to go';
+                strengthIndicator.className = 'strength-indicator strong-text';
+            }
+        });
+
+        $('#createAccount').on('click', function (e) {
+    e.preventDefault();
+
+    // Get field values
+    const organisation_name = $('#organisation_name').val().trim();
+    const organisation_email = $('#organisation_email').val().trim();
+    const organisation_phone = $('#organisation_phone').val().trim();
+    const password = $('#password').val().trim();
+
+    $('#errors').html('');
+
+
+    if (!organisation_name || !organisation_email || !organisation_phone || !password) {
+        $('#errors').html('<p style="color:red;">We would need all these info.</p>');
+        return;
+    }
+
+    // Proceed with AJAX request if all fields are filled
+    $.ajax({
+        url: 'process_registration.php',
+        type: 'POST',
+        data: {
+            organisation_name: organisation_name,
+            organisation_email: organisation_email,
+            organisation_phone: organisation_phone,
+            password: password
+        },
+        success: function (response) {
+            const res = JSON.parse(response);
+            if (res.status === 'error') {
+                $('#errors').html('<p style="color:red;">' + res.message + '</p>');
+            } else if (res.status === 'success') {
+                window.location.href = 'loading.html';
+            }
+        }
+    });
+});
+
+    </script>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</body>
+</html>

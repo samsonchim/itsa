@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .info {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Device Information</h1>
+    <div class="info" id="userAgent"></div>
+    <div class="info" id="deviceMemory"></div>
+    <div class="info" id="hardwareConcurrency"></div>
+    <div class="info" id="currentTime"></div>
+    <div class="info" id="timezone"></div>
+    <div class="info" id="uptime"></div>
+    <div class="info" id="batteryStatus"></div>
+    <div class="info" id="networkInfo"></div>
+    <div class="info" id="screenInfo"></div>
+    <div class="info" id="orientation"></div>
+    <div class="info" id="motion"></div>
+    <script>
+        function getDeviceInformation() {
+            // Get user agent
+            const userAgent = navigator.userAgent;
+            document.getElementById('userAgent').innerText = `User Agent: ${userAgent}`;
+
+            // Get device memory (approximate, in gigabytes)
+            if (navigator.deviceMemory) {
+                const deviceMemory = navigator.deviceMemory;
+                document.getElementById('deviceMemory').innerText = `Device Memory: ${deviceMemory} GB`;
+            } else {
+                document.getElementById('deviceMemory').innerText = `Device Memory: Not available`;
+            }
+
+            // Get number of logical processors
+            const hardwareConcurrency = navigator.hardwareConcurrency;
+            document.getElementById('hardwareConcurrency').innerText = `Number of Cores: ${hardwareConcurrency}`;
+
+            // Get current time
+            const currentTime = new Date().toLocaleString();
+            document.getElementById('currentTime').innerText = `Current Time: ${currentTime}`;
+
+            // Get timezone
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            document.getElementById('timezone').innerText = `Timezone: ${timezone}`;
+
+            // Get uptime (time since the browser was last restarted)
+            const uptimeSeconds = performance.now() / 1000;
+            const uptimeMinutes = Math.floor(uptimeSeconds / 60);
+            const uptimeHours = Math.floor(uptimeMinutes / 60);
+            const displayUptime = `${uptimeHours}h ${uptimeMinutes % 60}m ${Math.floor(uptimeSeconds % 60)}s`;
+            document.getElementById('uptime').innerText = `Browser Uptime: ${displayUptime}`;
+
+            // Get battery status
+            if (navigator.getBattery) {
+                navigator.getBattery().then(function(battery) {
+                    const batteryStatus = `Battery: ${battery.level * 100}% ${battery.charging ? '(Charging)' : '(Not Charging)'}`;
+                    document.getElementById('batteryStatus').innerText = batteryStatus;
+                });
+            } else {
+                document.getElementById('batteryStatus').innerText = `Battery Status: Not available`;
+            }
+
+            // Get network information
+            if (navigator.connection) {
+                const networkInfo = `Connection Type: ${navigator.connection.effectiveType}`;
+                document.getElementById('networkInfo').innerText = networkInfo;
+            } else {
+                document.getElementById('networkInfo').innerText = `Network Information: Not available`;
+            }
+
+            // Get screen information
+            const screenInfo = `Screen: ${screen.width}x${screen.height} (Resolution: ${screen.pixelDepth} bits per pixel)`;
+            document.getElementById('screenInfo').innerText = screenInfo;
+
+            // Get device orientation and motion
+            window.addEventListener('deviceorientation', function(event) {
+                const orientation = `Orientation - Alpha: ${event.alpha} Beta: ${event.beta} Gamma: ${event.gamma}`;
+                document.getElementById('orientation').innerText = orientation;
+            });
+
+            window.addEventListener('devicemotion', function(event) {
+                const motion = `Motion - Acceleration (X: ${event.acceleration.x}, Y: ${event.acceleration.y}, Z: ${event.acceleration.z})`;
+                document.getElementById('motion').innerText = motion;
+            });
+        }
+
+        // Run the function to get device information when the page loads
+        window.onload = getDeviceInformation;
+    </script>
+</body>
+</html>
