@@ -13,6 +13,9 @@ body{
         font-family: "Roboto Condensed", sans-serif !important;
 }
 
+.btn{
+    
+}
 .back-to-top {
     position: fixed;
     display: none;
@@ -289,3 +292,4 @@ td{
     background: var(--dark);
     border-color: var(--primary);
 }
+

@@ -1,8 +1,9 @@
+
 <?php
 session_start(); 
 
 if (!isset($_SESSION['id'])) {
-    header("Location: staff_login.html"); 
+    header("Location: ../admin_login.html"); 
     exit;
 }
 
@@ -13,15 +14,18 @@ $username = "root";
 $password = "";
 $dbname = "itsa";
 
-
 $organisationName = "";
-$recordCount = 0;
+$staffRecordCount = 0;
+$requestRecordCount = 0;
+$ongoingCount = 0;
+$completedCount = 0;
 
 try {
     // Establishing a connection to the database
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+    // Fetch organisation name
     $stmt = $conn->prepare("SELECT organisation_name FROM organisations WHERE id = :id");
     $stmt->bindParam(':id', $loggedInUserId);
     $stmt->execute();
@@ -30,22 +34,49 @@ try {
     if ($organisationRow) {
         $organisationName = $organisationRow['organisation_name'];
 
-        $stmt = $conn->prepare("SELECT COUNT(*) AS record_count FROM system_monitor WHERE organisation_id = :id");
+      
+        $stmt = $conn->prepare("SELECT COUNT(*) AS record_count FROM staffs WHERE organisation_id = :id");
         $stmt->bindParam(':id', $loggedInUserId);
         $stmt->execute();
         $countRow = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($countRow) {
-            $recordCount = $countRow['record_count'];
+            $staffRecordCount = $countRow['record_count'];
+        }
+
+        $stmt = $conn->prepare("SELECT COUNT(*) AS request_count FROM request_recived WHERE organisation_id = :id");
+        $stmt->bindParam(':id', $loggedInUserId);
+        $stmt->execute();
+        $countRow = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($countRow) {
+            $requestRecordCount = $countRow['request_count'];
+        }
+ 
+        $stmt = $conn->prepare("SELECT COUNT(*) AS completed_maintenance FROM completed_maintenance WHERE organisation_id = :id");
+        $stmt->bindParam(':id', $loggedInUserId);
+        $stmt->execute();
+        $countRow = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($countRow) {
+            $completedCount = $countRow['completed_maintenance'];
+        }
+
+        $stmt = $conn->prepare("SELECT COUNT(*) AS ongoing_maintenance_count FROM ongoing_maintenance WHERE organisation_id = :id");
+        $stmt->bindParam(':id', $loggedInUserId);
+        $stmt->execute();
+        $countRow = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($countRow) {
+            $ongoingCount = $countRow['ongoing_maintenance_count'];
         }
     }
 } catch(PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
 }
 
-$conn = null; 
+$conn = null;
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -216,38 +247,38 @@ $conn = null;
                 <div class="row g-4">
                     <div class="col-sm-6 col-xl-3">
                         <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                            <i class="fa fa-chart-line fa-2x text-primary"></i>
+                            <i class="fa fa-user-friends fa-2x text-primary"></i>
                             <div class="ms-3">
                                 <p class="mb-2">Staffs</p>
-                                <h6 class="mb-0"><?php echo $recordCount?></h6>
+                                <h6 class="mb-0"><?php echo $staffRecordCount?></h6>
                             </div>
                         </div>
                     </div>
                   
                     <div class="col-sm-6 col-xl-3">
                         <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                            <i class="fa fa-chart-area fa-2x text-primary"></i>
+                        <i class="fa fa-tasks fa-2x text-primary"></i>
                             <div class="ms-3">
                                 <p class="mb-2">Request Recieved</p>
-                                <h6 class="mb-0">7</h6>
+                                <h6 class="mb-0"><?php echo $requestRecordCount ?></h6>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-6 col-xl-3">
                         <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                            <i class="fa fa-chart-area fa-2x text-primary"></i>
+                        <i class="fa fa-wrench fa-2x text-primary"></i>
                             <div class="ms-3">
                                 <p class="mb-2">Ongoing Maintenance(s)</p>
-                                <h6 class="mb-0">7</h6>
+                                <h6 class="mb-0"><?php echo $ongoingCount?></h6>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-6 col-xl-3">
                         <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                            <i class="fa fa-chart-pie fa-2x text-primary"></i>
+                        <i class="fa fa-cogs fa-2x text-primary"></i>
                             <div class="ms-3">
                                 <p class="mb-2">Completed Maintenance(s)</p>
-                                <h6 class="mb-0">4</h6>
+                                <h6 class="mb-0"><?php echo $completedCount?></h6>
                             </div>
                         </div>
                     </div>

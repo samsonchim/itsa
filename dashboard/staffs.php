@@ -13,15 +13,16 @@ $username = "root";
 $password = "";
 $dbname = "itsa";
 
-
 $organisationName = "";
 $recordCount = 0;
+$staffs = []; // Initialize an empty array for staffs
 
 try {
     // Establishing a connection to the database
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+    // Fetch organisation name
     $stmt = $conn->prepare("SELECT organisation_name FROM organisations WHERE id = :id");
     $stmt->bindParam(':id', $loggedInUserId);
     $stmt->execute();
@@ -30,7 +31,8 @@ try {
     if ($organisationRow) {
         $organisationName = $organisationRow['organisation_name'];
 
-        $stmt = $conn->prepare("SELECT COUNT(*) AS record_count FROM system_monitor WHERE organisation_id = :id");
+        // Fetch record count of staffs
+        $stmt = $conn->prepare("SELECT COUNT(*) AS record_count FROM staffs WHERE organisation_id = :id");
         $stmt->bindParam(':id', $loggedInUserId);
         $stmt->execute();
         $countRow = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -38,6 +40,12 @@ try {
         if ($countRow) {
             $recordCount = $countRow['record_count'];
         }
+
+        // Fetch staff details
+        $stmt = $conn->prepare("SELECT id, name, email, system_id, visible_password FROM staffs WHERE organisation_id = :organisation_id");
+        $stmt->bindParam(':organisation_id', $loggedInUserId);
+        $stmt->execute();
+        $staffs = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 } catch(PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
@@ -45,8 +53,6 @@ try {
 
 $conn = null; 
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -98,7 +104,7 @@ $conn = null;
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <a href="index.html" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                    <a href="admin_dashboard.php" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
                     <!--<div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Elements</a>
                         <div class="dropdown-menu bg-transparent border-0">
@@ -212,44 +218,46 @@ $conn = null;
                 </div>
             </nav>
 
-                    <div class="container-fluid pt-4 px-4">
-                        <div class="bg-secondary text-center rounded p-4">
-                            <div class="d-flex align-items-center justify-content-between mb-4">
-                                <h6 class="mb-0">Staffs</h6>
-                            </div>
-                            <div class="d-flex mb-3">
-                                <input class="form-control bg-transparent" type="text" placeholder="Staff Name"> 
-                                <input class="form-control bg-transparent ms-3" type="text" placeholder="Email">
-                                <button type="button" class="btn btn-primary ms-3">Add Staff</button>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table text-start align-middle table-bordered table-hover mb-0">
-                                    <thead>
-                                        <tr class="text-white">
-                                            <th scope="col"><input class="form-check-input" type="checkbox"></th>
-                                            <th scope="col">Staff Name</th>
-                                            <th scope="col">Staff Email</th>
-                                            <th scope="col">System ID</th>
-                                            <th scope="col">Password</th>
-                                            <th scope="col">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td><input class="form-check-input" type="checkbox"></td>
-                                            <td>John Raymond</td>
-                                            <td>johnraymond@gmail.com</td>
-                                            <td>8902</td>
-                                            <td>8902</td>
-                                            <td><a class="btn btn-sm btn-primary" href="">Delete Staff</a></td>
-                                        </tr>
-                                      
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Recent Sales End -->
+            <div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0">Staffs of <?php echo htmlspecialchars($organisationName); ?></h6>
+        </div>
+        <div class="d-flex mb-3">
+            <form method="POST" action="add_staff.php" class="w-100 d-flex">
+                <input class="form-control bg-transparent" type="text" name="staff_name" placeholder="Staff Name" required> 
+                <input class="form-control bg-transparent ms-3" type="email" name="email" placeholder="Email" required>
+                <button type="submit" class="btn btn-primary ms-3">Add Staff</button>
+            </form>
+        </div>
+        <div class="table-responsive">
+            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                <thead>
+                    <tr class="text-white">
+                        <th scope="col"><input class="form-check-input" type="checkbox"></th>
+                        <th scope="col">Staff Name</th>
+                        <th scope="col">Staff Email</th>
+                        <th scope="col">System ID</th>
+                        <th scope="col">Password</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($staffs as $staff): ?>
+                    <tr>
+                        <td><input class="form-check-input" type="checkbox"></td>
+                        <td><?php echo htmlspecialchars($staff['name']); ?></td>
+                        <td><?php echo htmlspecialchars($staff['email']); ?></td>
+                        <td><?php echo htmlspecialchars($staff['system_id']); ?></td>
+                        <td><?php echo htmlspecialchars($staff['visible_password']); ?></td>
+                        <td><a class="btn btn-sm btn-primary" href="delete_staff.php?id=<?php echo $staff['id']; ?>">Delete Staff</a></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>

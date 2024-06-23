@@ -8,9 +8,9 @@ CREATE TABLE organisations (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
+
 CREATE TABLE system_monitor (
     id SERIAL PRIMARY KEY,
-    organisation_id INT NOT NULL,
     timestamp TIMESTAMP NOT NULL,
     battery_percent INT NOT NULL,
     battery_plugged_in BOOLEAN NOT NULL,
@@ -47,3 +47,36 @@ CREATE TABLE system_monitor (
     health_status VARCHAR(50),
     uptime VARCHAR(50) NOT NULL
 );
+
+CREATE TABLE request_recived (    
+    id INT PRIMARY KEY,
+    organisation_id INT NOT NULL,
+    description VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE ongoing_maintenance (    
+    id INT PRIMARY KEY,
+    organisation_id INT NOT NULL,
+    description VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE completed_maintenance (    
+    id INT PRIMARY KEY,
+    organisation_id INT NOT NULL,
+    description VARCHAR(255) NOT NULL
+);
+
+
+CREATE TABLE staffs (    
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    visible_password VARCHAR (255) NOT NULL,
+    system_id INT NOT NULL,
+    organisation_id INT NOT NULL,
+    request_sent VARCHAR(255) NOT NULL,
+    ongoing_maintenance VARCHAR(255) NOT NULL,
+    completed_maintenance VARCHAR (255) NOT NULL
+);
+
