@@ -2,7 +2,7 @@
 session_start(); 
 
 if (!isset($_SESSION['id'])) {
-    header("Location: staff_login.html"); 
+    header("Location: ../admin_login.html"); 
     exit;
 }
 
@@ -14,8 +14,12 @@ $password = "";
 $dbname = "itsa";
 
 $organisationName = "";
-$recordCount = 0;
-$staffs = []; // Initialize an empty array for staffs
+$staffRecordCount = 0;
+$requestRecordCount = 0;
+$ongoingCount = 0;
+$completedCount = 0;
+$requests = [];
+
 
 try {
     // Establishing a connection to the database
@@ -31,28 +35,83 @@ try {
     if ($organisationRow) {
         $organisationName = $organisationRow['organisation_name'];
 
-        // Fetch record count of staffs
+        // Fetch staff record count
         $stmt = $conn->prepare("SELECT COUNT(*) AS record_count FROM staffs WHERE organisation_id = :id");
         $stmt->bindParam(':id', $loggedInUserId);
         $stmt->execute();
         $countRow = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($countRow) {
-            $recordCount = $countRow['record_count'];
+            $staffRecordCount = $countRow['record_count'];
         }
 
-        // Fetch staff details
-        $stmt = $conn->prepare("SELECT id, name, email, system_id, visible_password FROM staffs WHERE organisation_id = :organisation_id");
-        $stmt->bindParam(':organisation_id', $loggedInUserId);
+        // Fetch request record count
+        $stmt = $conn->prepare("SELECT COUNT(*) AS request_count FROM request_sent WHERE organisation_id = :id");
+        $stmt->bindParam(':id', $loggedInUserId);
         $stmt->execute();
-        $staffs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $countRow = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($countRow) {
+            $requestRecordCount = $countRow['request_count'];
+        }
+
+        // Fetch completed maintenance count
+        $stmt = $conn->prepare("SELECT COUNT(*) AS completed_maintenance FROM completed_maintenance WHERE organisation_id = :id");
+        $stmt->bindParam(':id', $loggedInUserId);
+        $stmt->execute();
+        $countRow = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($countRow) {
+            $completedCount = $countRow['completed_maintenance'];
+        }
+
+        // Fetch ongoing maintenance count
+        $stmt = $conn->prepare("SELECT COUNT(*) AS ongoing_maintenance_count FROM ongoing_maintenance WHERE organisation_id = :id");
+        $stmt->bindParam(':id', $loggedInUserId);
+        $stmt->execute();
+        $countRow = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($countRow) {
+            $ongoingCount = $countRow['ongoing_maintenance_count'];
+        }
+
+            // Fetch the latest 5 maintenance requests including their IDs
+        $stmt = $conn->prepare("SELECT id, subject_issue, description, created_at FROM request_sent WHERE organisation_id = :id ORDER BY created_at DESC LIMIT 5");
+        $stmt->bindParam(':id', $loggedInUserId);
+        $stmt->execute();
+        $requests = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
     }
-} catch(PDOException $e) {
+    
+} catch (PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
 }
 
-$conn = null; 
+try {
+    // Establishing a connection to the database
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Fetch the latest 5 maintenance requests with staff names
+    $stmt = $conn->prepare("
+        SELECT request_sent.id, request_sent.subject_issue, request_sent.description, request_sent.created_at, 
+               request_sent.notice_date, request_sent.staff_id, staffs.name as staff_name
+        FROM request_sent
+        INNER JOIN staffs ON request_sent.staff_id = staffs.id
+        WHERE request_sent.organisation_id = :id
+        ORDER BY request_sent.created_at DESC
+        LIMIT 5
+    ");
+    $stmt->bindParam(':id', $loggedInUserId);
+    $stmt->execute();
+    $requests = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+} catch (PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+}
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -104,7 +163,7 @@ $conn = null;
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <a href="admin_dashboard.php" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                    <a href="index.html" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
                     <!--<div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Elements</a>
                         <div class="dropdown-menu bg-transparent border-0">
@@ -114,9 +173,9 @@ $conn = null;
                         </div>
                     </div> -->
                     <a href="staffs.php" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Staffs</a>
-                    <a href="technicians.php" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Technicians</a>
-                    <a href="plans.php" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Plans</a>
-                    <a href="help.html" class="nav-item nav-link"><i class="fa fa-question-circle me-2"></i>Help and Support</a>
+                    <a href="form.html" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Technicians</a>
+                    <a href="table.html" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Plans</a>
+                    <a href="chart.html" class="nav-item nav-link"><i class="fa fa-question-circle me-2"></i>Help and Support</a>
                     <a href="logout.php" class="nav-item nav-link"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
 
                    <!-- <div class="nav-item dropdown">
@@ -146,9 +205,9 @@ $conn = null;
                 </a>
                 <form class="d-none d-md-flex ms-4">
                     <br>
-                    <a href="plans.html"><div class="alert alert-warning" role="alert">
-                       You are Enjoying 7-day free trial of Business Packages 
-                    </div></a>
+                    <div class="alert alert-warning" role="alert">
+                       You are Enjoying 7-day free trial of Business Packages
+                    </div>
                 </form>
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
@@ -159,8 +218,7 @@ $conn = null;
                         <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item">
                                 <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
+                                      <div class="ms-2">
                                         <h6 class="fw-normal mb-0">Jhon send you a message</h6>
                                         <small>15 minutes ago</small>
                                     </div>
@@ -217,47 +275,70 @@ $conn = null;
                   
                 </div>
             </nav>
-
-            <div class="container-fluid pt-4 px-4">
-    <div class="bg-secondary text-center rounded p-4">
-        <div class="d-flex align-items-center justify-content-between mb-4">
-            <h6 class="mb-0">Staffs of <?php echo htmlspecialchars($organisationName); ?></h6>
-        </div>
-        <div class="d-flex mb-3">
-            <form method="POST" action="add_staff.php" class="w-100 d-flex">
-                <input class="form-control bg-transparent" type="text" name="staff_name" placeholder="Staff Name" required> 
-                <input class="form-control bg-transparent ms-3" type="email" name="email" placeholder="Email" required>
-                <button type="submit" class="btn btn-primary ms-3">Add Staff</button>
-            </form>
-        </div>
-        <div class="table-responsive">
-            <table class="table text-start align-middle table-bordered table-hover mb-0">
-                <thead>
-                    <tr class="text-white">
-                        <th scope="col"><input class="form-check-input" type="checkbox"></th>
-                        <th scope="col">Staff Name</th>
-                        <th scope="col">Staff Email</th>
-                        <th scope="col">System ID</th>
-                        <th scope="col">Password</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($staffs as $staff): ?>
-                    <tr>
-                        <td><input class="form-check-input" type="checkbox"></td>
-                        <td><?php echo htmlspecialchars($staff['name']); ?></td>
-                        <td><?php echo htmlspecialchars($staff['email']); ?></td>
-                        <td><?php echo htmlspecialchars($staff['system_id']); ?></td>
-                        <td><?php echo htmlspecialchars($staff['visible_password']); ?></td>
-                        <td><a class="btn btn-sm btn-primary" href="delete_staff.php?id=<?php echo $staff['id']; ?>">Delete Staff</a></td>
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+      <div class="container-fluid pt-4 px-4">
+        <div class="bg-secondary text-center rounded p-4">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h6 class="mb-0">All Maintenance Request</h6>
+            </div>
+            <div class="table-responsive">
+                <table class="table text-start align-middle table-bordered table-hover mb-0">
+                    <thead>
+                        <tr class="text-white">
+                            <th scope="col"><input class="form-check-input" type="checkbox"></th>
+                            <th scope="col">Staff Name</th>
+                            <th scope="col">Issue</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Noticed on</th>
+                            <th scope="col">Reported on</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($requests)): ?>
+                            <?php foreach ($requests as $request): ?>
+                                <tr>
+                                    <td><input class="form-check-input" type="checkbox"></td>
+                                    <td><?php echo htmlspecialchars($request['staff_name']); ?></td>
+                                    <td><?php echo htmlspecialchars($request['subject_issue']); ?></td>
+                                    <td><?php echo htmlspecialchars($request['description']); ?></td>
+                                    <td><?php echo date('F j, Y', strtotime($request['notice_date'])); ?></td>
+                                    <td><?php echo date('F j, Y, g:i a', strtotime($request['created_at'])); ?></td>
+                                    <td><a class="btn btn-sm btn-primary assign-btn" href="assign_technician.php?id=<?php echo $request['id']; ?>" id="assign-btn-<?php echo $request['id']; ?>">Assign Technician</a></td>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="7">No maintenance requests found.</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
+          
+    <style>
+        .disabled-btn {
+            pointer-events: none;
+            background-color: grey;
+            border-color: grey;
+        }
+    </style>
+
+            <!-- Footer Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-secondary rounded-top p-4">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 text-center text-sm-start">
+                            &copy; <a href="#">ITSA</a>, All Right Reserved. 
+                        </div>
+                      
+                    </div>
+                </div>
+            </div>
+            <!-- Footer End -->
+        </div>
+        <!-- Content End -->
+
 
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
@@ -273,6 +354,32 @@ $conn = null;
     <script src="lib/tempusdominus/js/moment.min.js"></script>
     <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.assign-btn').forEach(function(button) {
+            if (localStorage.getItem('assigned-' + button.id)) {
+                button.classList.add('disabled-btn');
+                button.innerText = 'Technician Assigned';
+            }
+
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+
+                if (!localStorage.getItem('assigned-' + button.id)) {
+
+                    button.classList.add('disabled-btn');
+                    button.innerText = 'Technician Assigned';
+                    localStorage.setItem('assigned-' + button.id, true);
+                    setTimeout(function() {
+                        window.location.href = button.href;
+                    }, 100);
+                } else {
+                    window.location.href = button.href;
+                }
+            });
+        });
+    });
+</script>
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>

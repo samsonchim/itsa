@@ -22,7 +22,6 @@ $ongoingCount = 0;
 $completedCount = 0;
 
 try {
-    // Establishing a connection to the database
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -57,7 +56,7 @@ try {
         }
 
         // Fetch request record count
-        $stmt = $conn->prepare("SELECT COUNT(*) AS request_count FROM request_sent WHERE id = :id");
+        $stmt = $conn->prepare("SELECT COUNT(*) AS request_count FROM request_sent WHERE staff_id = :id");
         $stmt->bindParam(':id', $loggedInUserId);
         $stmt->execute();
         $countRow = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -90,6 +89,50 @@ try {
     echo "Connection failed: " . $e->getMessage();
 }
 
+//The CLustered Chart Data was fetched from here.
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Fetch the count of requests per month for the logged-in user
+    $stmt = $conn->prepare("
+        SELECT MONTH(created_at) as month, COUNT(*) as request_count
+        FROM request_sent
+        WHERE staff_id = :staff_id
+        GROUP BY MONTH(created_at)
+    ");
+    $stmt->bindParam(':staff_id', $loggedInUserId);
+    $stmt->execute();
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Prepare data for the chart
+    $monthlyData = array_fill(1, 12, 0); 
+
+    foreach ($results as $row) {
+        $monthlyData[intval($row['month'])] = $row['request_count'];
+    }
+
+    // Convert data to JSON for use in JS
+    $jsonData = json_encode($monthlyData);
+
+} catch(PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+}
+
+
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $stmt = $conn->prepare("SELECT id, subject_issue FROM request_sent WHERE staff_id = :staff_id ORDER BY created_at DESC LIMIT 8");
+    $stmt->bindParam(':staff_id', $loggedInUserId);
+    $stmt->execute();
+
+    $requests = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch(PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+}
+
 $conn = null;
 ?>
 
@@ -114,6 +157,7 @@ $conn = null;
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- Libraries Stylesheet -->
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
@@ -145,36 +189,13 @@ $conn = null;
                 </div>
                 <div class="navbar-nav w-100">
                     <a href="index.html" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-                    <!--<div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Elements</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a href="button.html" class="dropdown-item">Buttons</a>
-                            <a href="typography.html" class="dropdown-item">Typography</a>
-                            <a href="element.html" class="dropdown-item">Other Elements</a>
-                        </div>
-                    </div> -->
-                    <a href="staffs.php" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Staffs</a>
-                    <a href="form.html" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Technicians</a>
-                    <a href="table.html" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Plans</a>
+                   
+                    <a href="download" class="nav-item nav-link"><i class="fa fa-download me-2"></i>Download Driver</a>
                     <a href="chart.html" class="nav-item nav-link"><i class="fa fa-question-circle me-2"></i>Help and Support</a>
                     <a href="logout.php" class="nav-item nav-link"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
-
-                   <!-- <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a href="signin.html" class="dropdown-item">Sign In</a>
-                            <a href="signup.html" class="dropdown-item">Sign Up</a>
-                            <a href="404.html" class="dropdown-item">404 Error</a>
-                            <a href="blank.html" class="dropdown-item">Blank Page</a>
-                        </div>
-                    </div>
-                </div>-->
             </nav>
         </div>
-        <!-- Sidebar End -->
 
-
-        <!-- Content Start -->
         <div class="content">
             <!-- Navbar Start -->
             <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
@@ -186,12 +207,112 @@ $conn = null;
                 </a>
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
-                           <button class="make-request">  <i class="fa fa-envelope me-lg-2"></i>Make a request</button>
-                           <style>
+
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fa fa-bell me-lg-2"></i>
+                            <span class="d-none d-lg-inline-flex">Notifications</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                            <a href="#" class="dropdown-item">
+                                <h6 class="fw-normal mb-0">Profile updated</h6>
+                                <small>15 minutes ago</small>
+                            </a>
+                            <hr class="dropdown-divider">
+                      </div>
+                     </nav>
+        
+                <div class="container-fluid pt-4 px-4">
+                    <div class="row g-4">
+                        <div class="col-sm-6 col-xl-3">
+                        
+                        </div>
+                    
+                        <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-sm-6 col-md-4">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fa fa-tasks fa-2x text-primary"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Request Made</p>
+                        <h6 class="mb-0"><?php echo $requestRecordCount ?></h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fa fa-wrench fa-2x text-primary"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Ongoing Maintenance(s)</p>
+                        <h6 class="mb-0"><?php echo $ongoingCount ?></h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fa fa-cogs fa-2x text-primary"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Completed Maintenance(s)</p>
+                        <h6 class="mb-0"><?php echo $completedCount ?></h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="col-sm-12 col-xl-6">
+                    <div class="bg-secondary text-center rounded p-4">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                        </div>
+                        <canvas id="request_sent"></canvas>
+                    </div>
+                    </div>
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-secondary text-center rounded p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h6 class="mb-0">Sytem Information</h6>
+                            </div>
+                           
+                                <p>jsj</p>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+          
+
+            <div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-md-6 col-xl-4">
+            <div class="h-100 bg-secondary rounded p-4">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h6 class="mb-0">Report a technical issue</h6>
+                                   </div>
+                <form action="report_an_issue.php" method="POST">
+                    <div class="mb-3">
+                        <label for="subjectIssue" class="form-label">Subject Issue</label>
+                        <input type="text" class="form-control" id="subjectIssue" name="subjectIssue" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dayOfNotice" class="form-label">Noticing Date</label>
+                        <input type="date" class="form-control" id="dayOfNotice" name="dayOfNotice" required>
+                    </div>
+                    <button type="submit" class="make-request">
+                        <i class="fa fa-envelope me-lg-2"></i>Make a request
+                    </button>
+                    <style>
                             .make-request{
-                                width: 100%;
-                                padding: 13px 0px;
-                                margin: 15px;
+                                width: 90%;
+                                padding: 16px 0px;
+                                margin: 17px;
                                 border: none;
                                 border-radius: 8px;
                                 outline: none;
@@ -203,270 +324,43 @@ $conn = null;
                             }
                             
                            </style>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item text-center">See all message</a>
-                        </div>
-                    </div>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <i class="fa fa-bell me-lg-2"></i>
-                            <span class="d-none d-lg-inline-flex">Notificatin</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">
-                                <h6 class="fw-normal mb-0">Profile updated</h6>
-                                <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                      
-                  
-                </div>
-            </nav>
-     
-            <div class="container-fluid pt-4 px-4">
-                <div class="row g-4">
-                    <div class="col-sm-6 col-xl-3">
-                       
-                    </div>
-                  
-                    <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-sm-6 col-md-4">
-            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                <i class="fa fa-tasks fa-2x text-primary"></i>
-                <div class="ms-3">
-                    <p class="mb-2">Request Made</p>
-                    <h6 class="mb-0"><?php echo $requestRecordCount ?></h6>
-                </div>
+                </form>
+                
+              
+               
             </div>
         </div>
-        <div class="col-sm-6 col-md-4">
-            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                <i class="fa fa-wrench fa-2x text-primary"></i>
-                <div class="ms-3">
-                    <p class="mb-2">Ongoing Maintenance(s)</p>
-                    <h6 class="mb-0"><?php echo $ongoingCount ?></h6>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-md-4">
-            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                <i class="fa fa-cogs fa-2x text-primary"></i>
-                <div class="ms-3">
-                    <p class="mb-2">Completed Maintenance(s)</p>
-                    <h6 class="mb-0"><?php echo $completedCount ?></h6>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+ 
 
-<div class="container-fluid pt-4 px-4">
-                <div class="bg-secondary text-center rounded p-4">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">Online Systems</h6>
-                        <a href="">Show All</a>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table text-start align-middle table-bordered table-hover mb-0">
-                            <thead>
-                                <tr class="text-white">
-                                    <th scope="col"><input class="form-check-input" type="checkbox"></th>
-                                    <th scope="col">Staff Name</th>
-                                    <th scope="col">PC Name</th>
-                                    <th scope="col">PC Model</th>
-                                    <th scope="col">Battery Health</th>
-                                    <th scope="col">Open Programs</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="container-fluid pt-4 px-4">
-                <div class="row g-4">
-                    <div class="col-sm-12 col-xl-6">
-                        <div class="bg-secondary text-center rounded p-4">
+
+                    <div class="col-sm-12 col-md-6 col-xl-4">
+                        <div class="h-100 bg-secondary rounded p-4">
                             <div class="d-flex align-items-center justify-content-between mb-4">
-                                <h6 class="mb-0">Worldwide Sales</h6>
-                                <a href="">Show All</a>
-                            </div>
-                            <canvas id="worldwide-sales"></canvas>
+                                <h6 class="mb-0">Calender</h6>
+                                   </div>
+                            <div id="calender"></div>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-xl-6">
-                        <div class="bg-secondary text-center rounded p-4">
-                            <div class="d-flex align-items-center justify-content-between mb-4">
-                                <h6 class="mb-0">Salse & Revenue</h6>
-                                <a href="">Show All</a>
-                            </div>
-                            <canvas id="salse-revenue"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-          
-
-            <div class="container-fluid pt-4 px-4 request-form">
-            <div class="row g-4">
-                <div class="col-sm-12 col-md-6 col-xl-4">
+                    <div class="col-sm-12 col-md-6 col-xl-4">
                     <div class="h-100 bg-secondary rounded p-4">
-                        <div class="d-flex align-items-center justify-content-between mb-2">
-                            <h6 class="mb-0">Make a Request</h6>
-                        </div>
-                        <div class="d-flex align-items-center border-bottom py-3">
-                            <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Issues Created</h6>
+                    </div>
+
+                    <?php foreach ($requests as $request): ?>
+                        <div class="d-flex align-items-center border-bottom py-2">
                             <div class="w-100 ms-3">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-0">John Doe</h6>
-                                    <small>15 minutes ago</small>
-                                </div>
-                                <span>Short message goes here...</span>
-                            </div>
-                        </div>
-                        <!-- Repeat similar blocks as needed -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-   
-                            <div class="d-flex mb-2">
-                                <input class="form-control bg-dark border-0" type="text" placeholder="Enter task">
-                                <button type="button" class="btn btn-primary ms-2">Add</button>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-2">
-                                <input class="form-check-input m-0" type="checkbox">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span>Short task goes here...</span>
+                                <div class="d-flex w-100 align-items-center justify-content-between">
+                                    <span><?php echo htmlspecialchars($request['subject_issue']); ?></span>
+                                    <a href="delete_request.php?id=<?php echo $request['id']; ?>">
                                         <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-2">
-                                <input class="form-check-input m-0" type="checkbox">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span>Short task goes here...</span>
-                                        <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-2">
-                                <input class="form-check-input m-0" type="checkbox" checked>
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span><del>Short task goes here...</del></span>
-                                        <button class="btn btn-sm text-primary"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-2">
-                                <input class="form-check-input m-0" type="checkbox">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span>Short task goes here...</span>
-                                        <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center pt-2">
-                                <input class="form-check-input m-0" type="checkbox">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span>Short task goes here...</span>
-                                        <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                    </div>
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
-            </div>
-            <!-- Widgets End -->
-
+                    </div>
 
             <!-- Footer Start -->
             <div class="container-fluid pt-4 px-4">
@@ -489,13 +383,38 @@ $conn = null;
     </div>
 
     <!-- JavaScript Libraries -->
+
     <script>
-        document.querySelector('.make-request').addEventListener('click', function() {
-            document.querySelector('.request-form').style.display = 'block';
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('request_sent').getContext('2d');
+            const monthlyData = <?php echo $jsonData; ?>;
+            const labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Requests',
+                        data: Object.values(monthlyData),
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
         });
     </script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="lib/chart/chart.min.js"></script>
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/waypoints/waypoints.min.js"></script>

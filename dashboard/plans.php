@@ -2,7 +2,7 @@
 session_start(); 
 
 if (!isset($_SESSION['id'])) {
-    header("Location: staff_login.html"); 
+    header("Location: ../admin_login.html"); 
     exit;
 }
 
@@ -14,8 +14,11 @@ $password = "";
 $dbname = "itsa";
 
 $organisationName = "";
-$recordCount = 0;
-$staffs = []; // Initialize an empty array for staffs
+$staffRecordCount = 0;
+$requestRecordCount = 0;
+$ongoingCount = 0;
+$completedCount = 0;
+$requests = [];
 
 try {
     // Establishing a connection to the database
@@ -31,28 +34,59 @@ try {
     if ($organisationRow) {
         $organisationName = $organisationRow['organisation_name'];
 
-        // Fetch record count of staffs
+        // Fetch staff record count
         $stmt = $conn->prepare("SELECT COUNT(*) AS record_count FROM staffs WHERE organisation_id = :id");
         $stmt->bindParam(':id', $loggedInUserId);
         $stmt->execute();
         $countRow = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($countRow) {
-            $recordCount = $countRow['record_count'];
+            $staffRecordCount = $countRow['record_count'];
         }
 
-        // Fetch staff details
-        $stmt = $conn->prepare("SELECT id, name, email, system_id, visible_password FROM staffs WHERE organisation_id = :organisation_id");
-        $stmt->bindParam(':organisation_id', $loggedInUserId);
+        // Fetch request record count
+        $stmt = $conn->prepare("SELECT COUNT(*) AS request_count FROM request_sent WHERE organisation_id = :id");
+        $stmt->bindParam(':id', $loggedInUserId);
         $stmt->execute();
-        $staffs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $countRow = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($countRow) {
+            $requestRecordCount = $countRow['request_count'];
+        }
+
+        // Fetch completed maintenance count
+        $stmt = $conn->prepare("SELECT COUNT(*) AS completed_maintenance FROM completed_maintenance WHERE organisation_id = :id");
+        $stmt->bindParam(':id', $loggedInUserId);
+        $stmt->execute();
+        $countRow = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($countRow) {
+            $completedCount = $countRow['completed_maintenance'];
+        }
+
+        // Fetch ongoing maintenance count
+        $stmt = $conn->prepare("SELECT COUNT(*) AS ongoing_maintenance_count FROM ongoing_maintenance WHERE organisation_id = :id");
+        $stmt->bindParam(':id', $loggedInUserId);
+        $stmt->execute();
+        $countRow = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($countRow) {
+            $ongoingCount = $countRow['ongoing_maintenance_count'];
+        }
+
+            // Fetch the latest 5 maintenance requests including their IDs
+        $stmt = $conn->prepare("SELECT id, subject_issue, description, created_at FROM request_sent WHERE organisation_id = :id ORDER BY created_at DESC LIMIT 5");
+        $stmt->bindParam(':id', $loggedInUserId);
+        $stmt->execute();
+        $requests = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
     }
-} catch(PDOException $e) {
+} catch (PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
 }
-
-$conn = null; 
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -78,11 +112,10 @@ $conn = null;
     <!-- Libraries Stylesheet -->
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
     <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Customized Bootstrap Stylesheet -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 </head>
 
@@ -104,7 +137,7 @@ $conn = null;
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <a href="admin_dashboard.php" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                    <a href="index.html" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
                     <!--<div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Elements</a>
                         <div class="dropdown-menu bg-transparent border-0">
@@ -119,16 +152,6 @@ $conn = null;
                     <a href="help.html" class="nav-item nav-link"><i class="fa fa-question-circle me-2"></i>Help and Support</a>
                     <a href="logout.php" class="nav-item nav-link"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
 
-                   <!-- <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a href="signin.html" class="dropdown-item">Sign In</a>
-                            <a href="signup.html" class="dropdown-item">Sign Up</a>
-                            <a href="404.html" class="dropdown-item">404 Error</a>
-                            <a href="blank.html" class="dropdown-item">Blank Page</a>
-                        </div>
-                    </div>
-                </div>-->
             </nav>
         </div>
         <!-- Sidebar End -->
@@ -144,52 +167,9 @@ $conn = null;
                     <i class="bars fa fa-bars"></i>
                    
                 </a>
-                <form class="d-none d-md-flex ms-4">
-                    <br>
-                    <a href="plans.html"><div class="alert alert-warning" role="alert">
-                       You are Enjoying 7-day free trial of Business Packages 
-                    </div></a>
-                </form>
+                
                 <div class="navbar-nav align-items-center ms-auto">
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <i class="fa fa-envelope me-lg-2"></i>
-                            <span class="d-none d-lg-inline-flex">Message</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item text-center">See all message</a>
-                        </div>
-                    </div>
+                  
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <i class="fa fa-bell me-lg-2"></i>
@@ -217,49 +197,75 @@ $conn = null;
                   
                 </div>
             </nav>
-
+      <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="h-100 bg-secondary rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <h6 class="mb-0">Student</h6>
+                             </div>
+                    <div class="bg-[#2a3b50] p-6 rounded-lg space-y-4">
+                  <p class="font-bold text-sm">&#8358; 3,500 per Device</p>
+                  <ul class="font-light text-sm text-left space-y-2">
+                      <li>Deployment Setup is Free</li>
+                      <li>Payment Plan: Annual</li>
+                      <li>Email support</li>
+                      <li>Limited to 3 Devices</li>
+                  </ul>
+                  <button class="bg-gradient-to-r from-[#65e2d9] to-[#339ecc] w-full rounded-full py-2.5 hover:bg-gradient-to-r hover:from-[#339ecc] hover:to-[#65e2d9]">Choose Plan</button>
+              </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="h-100 bg-secondary rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <h6 class="mb-0">Family</h6>
+                             </div>
+                    <div class="bg-[#2a3b50] p-6 rounded-lg space-y-4">
+                  <p class="font-bold text-sm">&#8358; 3,500 per Device</p>
+                  <ul class="font-bold text-sm text-left space-y-2">
+                      <li>Deployment Setup is Free</li>
+                      <li>Payment Plan: Annual</li>
+                      <li>Email Support</li>
+                      <li>24/7 support</li>
+                      <li>Limited to 10 Devices</li>
+                  </ul>
+                  <button class="bg-gradient-to-r from-[#65e2d9] to-[#339ecc] w-full rounded-full py-2.5 hover:bg-gradient-to-r hover:from-[#339ecc] hover:to-[#65e2d9]">Choose Plan</button>
+              </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="h-100 bg-secondary rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <h6 class="mb-0">Coporate</h6>
+                             </div>
+                    <div class="bg-[#2a3b50] p-6 rounded-lg space-y-4">
+                  <p class="font-bold text-sm">&#8358; 3,500 per Device</p>
+                  <ul class="font-bold text-sm text-left space-y-2">
+                      <li>Deployment Setup starts at &#8358;1,500,000</li>
+                      <li>Priority support</li>
+                      <li>Customizable solutions</li>
+                      <li>24/7 Support</li>
+                      <li>Unlimited Devices</li>
+                  </ul>
+                  <button disabled class="bg-gradient-to-r from-[#65e2d9] to-[#339ecc] w-full rounded-full py-2.5 hover:bg-gradient-to-r hover:from-[#339ecc] hover:to-[#65e2d9]">Current <br>(For Just a Week)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+  
             <div class="container-fluid pt-4 px-4">
-    <div class="bg-secondary text-center rounded p-4">
-        <div class="d-flex align-items-center justify-content-between mb-4">
-            <h6 class="mb-0">Staffs of <?php echo htmlspecialchars($organisationName); ?></h6>
+                <div class="bg-secondary rounded-top p-4">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 text-center text-sm-start">
+                            &copy; <a href="#">ITSA</a>, All Right Reserved. 
+                        </div>
+                      
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="d-flex mb-3">
-            <form method="POST" action="add_staff.php" class="w-100 d-flex">
-                <input class="form-control bg-transparent" type="text" name="staff_name" placeholder="Staff Name" required> 
-                <input class="form-control bg-transparent ms-3" type="email" name="email" placeholder="Email" required>
-                <button type="submit" class="btn btn-primary ms-3">Add Staff</button>
-            </form>
-        </div>
-        <div class="table-responsive">
-            <table class="table text-start align-middle table-bordered table-hover mb-0">
-                <thead>
-                    <tr class="text-white">
-                        <th scope="col"><input class="form-check-input" type="checkbox"></th>
-                        <th scope="col">Staff Name</th>
-                        <th scope="col">Staff Email</th>
-                        <th scope="col">System ID</th>
-                        <th scope="col">Password</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($staffs as $staff): ?>
-                    <tr>
-                        <td><input class="form-check-input" type="checkbox"></td>
-                        <td><?php echo htmlspecialchars($staff['name']); ?></td>
-                        <td><?php echo htmlspecialchars($staff['email']); ?></td>
-                        <td><?php echo htmlspecialchars($staff['system_id']); ?></td>
-                        <td><?php echo htmlspecialchars($staff['visible_password']); ?></td>
-                        <td><a class="btn btn-sm btn-primary" href="delete_staff.php?id=<?php echo $staff['id']; ?>">Delete Staff</a></td>
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
-        <!-- Back to Top -->
+      
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
 
@@ -273,6 +279,12 @@ $conn = null;
     <script src="lib/tempusdominus/js/moment.min.js"></script>
     <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <style>
+        .text-sm{
+            color: white !important;
+        }
+    </style>
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>

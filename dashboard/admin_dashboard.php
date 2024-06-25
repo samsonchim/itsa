@@ -1,4 +1,3 @@
-
 <?php
 session_start(); 
 
@@ -19,6 +18,7 @@ $staffRecordCount = 0;
 $requestRecordCount = 0;
 $ongoingCount = 0;
 $completedCount = 0;
+$requests = [];
 
 try {
     // Establishing a connection to the database
@@ -34,7 +34,7 @@ try {
     if ($organisationRow) {
         $organisationName = $organisationRow['organisation_name'];
 
-      
+        // Fetch staff record count
         $stmt = $conn->prepare("SELECT COUNT(*) AS record_count FROM staffs WHERE organisation_id = :id");
         $stmt->bindParam(':id', $loggedInUserId);
         $stmt->execute();
@@ -44,7 +44,8 @@ try {
             $staffRecordCount = $countRow['record_count'];
         }
 
-        $stmt = $conn->prepare("SELECT COUNT(*) AS request_count FROM request_recived WHERE organisation_id = :id");
+        // Fetch request record count
+        $stmt = $conn->prepare("SELECT COUNT(*) AS request_count FROM request_sent WHERE organisation_id = :id");
         $stmt->bindParam(':id', $loggedInUserId);
         $stmt->execute();
         $countRow = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -52,7 +53,8 @@ try {
         if ($countRow) {
             $requestRecordCount = $countRow['request_count'];
         }
- 
+
+        // Fetch completed maintenance count
         $stmt = $conn->prepare("SELECT COUNT(*) AS completed_maintenance FROM completed_maintenance WHERE organisation_id = :id");
         $stmt->bindParam(':id', $loggedInUserId);
         $stmt->execute();
@@ -62,6 +64,7 @@ try {
             $completedCount = $countRow['completed_maintenance'];
         }
 
+        // Fetch ongoing maintenance count
         $stmt = $conn->prepare("SELECT COUNT(*) AS ongoing_maintenance_count FROM ongoing_maintenance WHERE organisation_id = :id");
         $stmt->bindParam(':id', $loggedInUserId);
         $stmt->execute();
@@ -70,13 +73,19 @@ try {
         if ($countRow) {
             $ongoingCount = $countRow['ongoing_maintenance_count'];
         }
+
+            // Fetch the latest 5 maintenance requests including their IDs
+        $stmt = $conn->prepare("SELECT id, subject_issue, description, created_at FROM request_sent WHERE organisation_id = :id ORDER BY created_at DESC LIMIT 5");
+        $stmt->bindParam(':id', $loggedInUserId);
+        $stmt->execute();
+        $requests = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
     }
-} catch(PDOException $e) {
+} catch (PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
 }
-
-$conn = null;
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -139,21 +148,12 @@ $conn = null;
                         </div>
                     </div> -->
                     <a href="staffs.php" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Staffs</a>
-                    <a href="form.html" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Technicians</a>
-                    <a href="table.html" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Plans</a>
-                    <a href="chart.html" class="nav-item nav-link"><i class="fa fa-question-circle me-2"></i>Help and Support</a>
+                    <a href="technicians.php" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Technicians</a>
+                    <a href="plans.php" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Plans</a>
+                    <a href="help.html" class="nav-item nav-link"><i class="fa fa-question-circle me-2"></i>Help and Support</a>
                     <a href="logout.php" class="nav-item nav-link"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
 
-                   <!-- <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a href="signin.html" class="dropdown-item">Sign In</a>
-                            <a href="signup.html" class="dropdown-item">Sign Up</a>
-                            <a href="404.html" class="dropdown-item">404 Error</a>
-                            <a href="blank.html" class="dropdown-item">Blank Page</a>
-                        </div>
-                    </div>
-                </div>-->
+                 
             </nav>
         </div>
         <!-- Sidebar End -->
@@ -171,9 +171,9 @@ $conn = null;
                 </a>
                 <form class="d-none d-md-flex ms-4">
                     <br>
-                    <div class="alert alert-warning" role="alert">
-                       You are Enjoying 7-day free trial of Business Packages
-                    </div>
+                    <a href="plans.php"><div class="alert alert-warning" role="alert">
+                       You are Enjoying 7-day free trial of Business Packages 
+                    </div></a>
                 </form>
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
@@ -184,8 +184,7 @@ $conn = null;
                         <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item">
                                 <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
+                                      <div class="ms-2">
                                         <h6 class="fw-normal mb-0">Jhon send you a message</h6>
                                         <small>15 minutes ago</small>
                                     </div>
@@ -380,55 +379,32 @@ $conn = null;
             </div>
 
             <div class="container-fluid pt-4 px-4">
-                <div class="row g-4">
-                    <div class="col-sm-12 col-md-6 col-xl-4">
-                        <div class="h-100 bg-secondary rounded p-4">
-                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                <h6 class="mb-0">Messages</h6>
-                                <a href="">Show All</a>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-3">
-                                <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Jhon Doe</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                    <span>Short message goes here...</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-3">
-                                <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Jhon Doe</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                    <span>Short message goes here...</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-3">
-                                <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Jhon Doe</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                    <span>Short message goes here...</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center pt-3">
-                                <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Jhon Doe</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                    <span>Short message goes here...</span>
-                                </div>
-                            </div>
-                        </div>
+        <div class="row g-4">
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="h-100 bg-secondary rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <h6 class="mb-0">Maintenance Requests</h6>
+                        <a href="all_request.php">Show All</a>
                     </div>
+                    <?php if (!empty($requests)): ?>
+                    <?php foreach ($requests as $request): ?>
+                        <div class="d-flex align-items-center border-bottom py-3">
+                            <a href="assign_technician.php?id=<?php echo $request['id']; ?>">
+                                <div class="w-100 ms-3">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-0"><?php echo htmlspecialchars($request['subject_issue']); ?></h6>
+                                    </div>
+                                    <small>Received Time: <?php echo date('F j, Y, g:i a', strtotime($request['created_at'])); ?></small>
+                                </div>
+                            </a>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>All Systems are good and running.</p>
+                <?php endif; ?>
+
+                </div>
+            </div>
                     <div class="col-sm-12 col-md-6 col-xl-4">
                         <div class="h-100 bg-secondary rounded p-4">
                             <div class="d-flex align-items-center justify-content-between mb-4">

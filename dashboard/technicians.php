@@ -15,7 +15,8 @@ $dbname = "itsa";
 
 $organisationName = "";
 $recordCount = 0;
-$staffs = []; // Initialize an empty array for staffs
+$staffs = []; 
+$technicians = [];
 
 try {
     // Establishing a connection to the database
@@ -47,6 +48,20 @@ try {
         $stmt->execute();
         $staffs = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+} catch(PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+}
+
+$conn = null; 
+
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $stmt = $conn->prepare("SELECT id, name, email FROM technicians");
+    $stmt->execute();
+    $technicians = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 } catch(PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
 }
@@ -146,7 +161,7 @@ $conn = null;
                 </a>
                 <form class="d-none d-md-flex ms-4">
                     <br>
-                    <a href="plans.html"><div class="alert alert-warning" role="alert">
+                    <a href="plans.php"><div class="alert alert-warning" role="alert">
                        You are Enjoying 7-day free trial of Business Packages 
                     </div></a>
                 </form>
@@ -221,43 +236,51 @@ $conn = null;
             <div class="container-fluid pt-4 px-4">
     <div class="bg-secondary text-center rounded p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
-            <h6 class="mb-0">Staffs of <?php echo htmlspecialchars($organisationName); ?></h6>
+            <h6 class="mb-0">Technicians Near You</h6> <br>
         </div>
-        <div class="d-flex mb-3">
-            <form method="POST" action="add_staff.php" class="w-100 d-flex">
-                <input class="form-control bg-transparent" type="text" name="staff_name" placeholder="Staff Name" required> 
-                <input class="form-control bg-transparent ms-3" type="email" name="email" placeholder="Email" required>
-                <button type="submit" class="btn btn-primary ms-3">Add Staff</button>
-            </form>
-        </div>
-        <div class="table-responsive">
-            <table class="table text-start align-middle table-bordered table-hover mb-0">
-                <thead>
-                    <tr class="text-white">
-                        <th scope="col"><input class="form-check-input" type="checkbox"></th>
-                        <th scope="col">Staff Name</th>
-                        <th scope="col">Staff Email</th>
-                        <th scope="col">System ID</th>
-                        <th scope="col">Password</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($staffs as $staff): ?>
-                    <tr>
-                        <td><input class="form-check-input" type="checkbox"></td>
-                        <td><?php echo htmlspecialchars($staff['name']); ?></td>
-                        <td><?php echo htmlspecialchars($staff['email']); ?></td>
-                        <td><?php echo htmlspecialchars($staff['system_id']); ?></td>
-                        <td><?php echo htmlspecialchars($staff['visible_password']); ?></td>
-                        <td><a class="btn btn-sm btn-primary" href="delete_staff.php?id=<?php echo $staff['id']; ?>">Delete Staff</a></td>
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+        <p class="text">Assigning any technician here grants them the privilege to monitor all your staff's CPUs and take necessary actions as needed.</p>
+       
+        <style>
+            .text{
+                color: white;
+            }
+        </style>
+     
+<div class="table-responsive">
+    <table class="table text-start align-middle table-bordered table-hover mb-0">
+        <thead>
+            <tr class="text-white">
+                <th scope="col">Technician's Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($technicians as $technician): ?>
+            <tr>
+                <td><?php echo htmlspecialchars($technician['name']); ?></td>
+                <td><?php echo htmlspecialchars($technician['email']); ?></td>
+                <td>
+                <a class="btn btn-sm btn-primary" href="p_assign.php?id=<?php echo $technician['id']; ?>" id="assign-btn-<?php echo $technician['id']; ?>">
+                    Assign Technician
+                </a>
+            </td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
         </div>
     </div>
 </div>
+
+<style>
+        .disabled-btn {
+            pointer-events: none;
+            background-color: grey;
+            border-color: grey;
+        }
+    </style>
+
 
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
@@ -273,6 +296,33 @@ $conn = null;
     <script src="lib/tempusdominus/js/moment.min.js"></script>
     <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.assign-btn').forEach(function(button) {
+            if (localStorage.getItem('assign-' + button.id)) {
+                button.classList.add('disabled-btn');
+                button.innerText = 'Technician Assigned';
+            }
+
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+
+                if (!localStorage.getItem('assign-' + button.id)) {
+
+                    button.classList.add('disabled-btn');
+                    button.innerText = 'Technician Assigned';
+                    localStorage.setItem('assign-' + button.id, true);
+                    setTimeout(function() {
+                        window.location.href = button.href;
+                    }, 100);
+                } else {
+                    window.location.href = button.href;
+                }
+            });
+        });
+    });
+</script>
+
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
