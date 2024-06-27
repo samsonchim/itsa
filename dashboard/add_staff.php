@@ -14,9 +14,9 @@ if (!isset($_SESSION['id'])) {
 $loggedInUserId = $_SESSION['id'];
 
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "itsa";
+$username = "samsonch_itsa";
+$password = "Iamthatiam1!";
+$dbname = "samsonch_itsa";
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

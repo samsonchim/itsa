@@ -194,7 +194,7 @@ $conn = null;
                 <div class="navbar-nav w-100">
                     <a href="index.html" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
                    
-                    <a href="download" class="nav-item nav-link"><i class="fa fa-download me-2"></i>Download Driver</a>
+                    <a href="itsa.exe" class="nav-item nav-link"><i class="fa fa-download me-2"></i>Download Driver</a>
                     <a href="chart.html" class="nav-item nav-link"><i class="fa fa-question-circle me-2"></i>Help and Support</a>
                     <a href="logout.php" class="nav-item nav-link"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
             </nav>

@@ -13,9 +13,9 @@ if (!$data || !is_array($data)) {
 }
 
 // Ensure systems directory exists
-$systemsDir = 'http://www.samsonchi.tech/systems/';
+$systemsDir = 'systems/';
 if (!file_exists($systemsDir)) {
-    mkdir($systemsDir, 0777, true); // Create the directory if it doesn't exist
+    mkdir($systemsDir, 0777, true); 
 }
 
 // Loop through each record and write to separate JSON files
