@@ -4,58 +4,18 @@ CREATE TABLE organisations (
     organisation_name VARCHAR(255) NOT NULL,
     organisation_email VARCHAR(191) NOT NULL UNIQUE,
     organisation_phone VARCHAR(20),
+    ip_address VARCHAR((255),)
     password VARCHAR(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-
-CREATE TABLE system_monitor (
-    id SERIAL PRIMARY KEY,
-    timestamp TIMESTAMP NOT NULL,
-    battery_percent INT NOT NULL,
-    battery_plugged_in BOOLEAN NOT NULL,
-    running_processes INT NOT NULL,
-    manufacturer VARCHAR(100),
-    model VARCHAR(100),
-    os_version VARCHAR(100),
-    os_build_number VARCHAR(100),
-    os_update_status VARCHAR(50),
-    cpu_type VARCHAR(100),
-    cpu_speed VARCHAR(50),
-    cpu_cores INT,
-    ram_amount VARCHAR(50),
-    ram_type VARCHAR(50),
-    ram_speed VARCHAR(50),
-    storage_type VARCHAR(50),
-    capacity VARCHAR(50),
-    available_space VARCHAR(50),
-    bios_version VARCHAR(100),
-    application_count INT,
-    ip_address VARCHAR(50),
-    subnet_mask VARCHAR(50),
-    default_gateway VARCHAR(50),
-    dns_servers VARCHAR(100),
-    connection_status VARCHAR(50),
-    connection_speed VARCHAR(50),
-    cpu_usage VARCHAR(50),
-    memory_usage VARCHAR(50),
-    disk_usage VARCHAR(50),
-    network_usage VARCHAR(50),
-    temperature VARCHAR(50),
-    fan_speed VARCHAR(50),
-    voltage_readings VARCHAR(50),
-    health_status VARCHAR(50),
-    uptime VARCHAR(50) NOT NULL
-);
 
 CREATE TABLE request_recieved (    
     id INT PRIMARY KEY AUTO_INCREMENT,
     technician_id INT NOT NULL,
     organisation_id INT NOT NULL,
     staff_email VARCHAR(255) NOT NULL,
-    subject_issue VARCHAR(255) NOT NULL,
-    description VARCHAR(255) NOT NULL,
-    notice_date DATE NOT NULL,
+    request_id INT NOT NULL,
     recieved_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -64,7 +24,7 @@ CREATE TABLE ongoing_maintenance (
     organisation_id INT NOT NULL,
     staff_id INT NOT NULL,
     request_id INT NOT NULL,
-    technicalman_id INT NOT NULL,
+    technician_id INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -77,6 +37,7 @@ CREATE TABLE completed_maintenance (
 CREATE TABLE request_sent (
     id INT AUTO_INCREMENT PRIMARY KEY,
     staff_id INT NOT NULL,
+    staff_ip VARCHAR (255) NOT NULL,
     organisation_id INT NOT NULL,
     subject_issue VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
@@ -91,6 +52,7 @@ CREATE TABLE staffs (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
+    ip_address VARCHAR (255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     plank VARCHAR (255) NOT NULL,
     system_id INT NOT NULL,
@@ -105,9 +67,11 @@ CREATE TABLE technicians (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
+    ip_address VARCHAR (255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     plank VARCHAR (255) NOT NULL
 );
+
 
 CREATE TABLE p_assignment (    
     id INT AUTO_INCREMENT PRIMARY KEY,

@@ -1,0 +1,2371 @@
+{
+    "Email": "example@example.com",
+    "OS Info": {
+        "Operating System": "Windows",
+        "OS Version": "10.0.22631",
+        "Architecture": "64bit"
+    },
+    "CPU Info": {
+        "Total Logical CPUs": 4,
+        "Current CPU Frequency (MHz)": 2501,
+        "CPU Usage per Core (%)": [
+            72.5,
+            26.2,
+            23.8,
+            25
+        ],
+        "CPU Stats": {
+            "ctx_switches": 682370447,
+            "interrupts": 365525517,
+            "soft_interrupts": 0,
+            "syscalls": 2775368579
+        },
+        "CPU Times": {
+            "user": 29701.21875,
+            "system": 20062.984375,
+            "idle": 131029.5625,
+            "interrupt": 1067.6875,
+            "dpc": 549.390625
+        }
+    },
+    "Memory Info": {
+        "Total Memory (GB)": 7.85,
+        "Available Memory (GB)": 0.6,
+        "Used Memory (GB)": 7.24,
+        "Free Memory (GB)": 0.6,
+        "Memory Usage (%)": 92.3
+    },
+    "Disk Info": [
+        {
+            "Device": "C:\\",
+            "Mount Point": "C:\\",
+            "File System Type": "NTFS",
+            "Total Size (GB)": 237.38,
+            "Used Size (GB)": 220.08,
+            "Free Size (GB)": 17.3,
+            "Percent Used (%)": 92.7
+        }
+    ],
+    "Storage Data": {
+        "Total Bytes Read (GB)": 318.91,
+        "Total Bytes Written (GB)": 78.93,
+        "Total Read Time (seconds)": "0:00:37",
+        "Total Write Time (seconds)": "0:00:06"
+    },
+    "Process Info": {
+        "Total Processes": 326,
+        "System Processes": 154,
+        "Application Processes": 172,
+        "System Process Info": [
+            {
+                "PID": 528,
+                "Name": "smss.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.0035493010064942486
+            },
+            {
+                "PID": 600,
+                "Name": "fontdrvhost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.03768093534291839
+            },
+            {
+                "PID": 720,
+                "Name": "csrss.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.029269578163144346
+            },
+            {
+                "PID": 820,
+                "Name": "wininit.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.01876753682886
+            },
+            {
+                "PID": 828,
+                "Name": "csrss.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.043612643874319734
+            },
+            {
+                "PID": 868,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.24893727607192537
+            },
+            {
+                "PID": 920,
+                "Name": "winlogon.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.06485982935155243
+            },
+            {
+                "PID": 936,
+                "Name": "SecurityHealthSystray.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.041376098034611036
+            },
+            {
+                "PID": 964,
+                "Name": "services.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.0937404430208344
+            },
+            {
+                "PID": 972,
+                "Name": "LsaIso.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.010502041334284352
+            },
+            {
+                "PID": 996,
+                "Name": "lsass.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.16039923315650037
+            },
+            {
+                "PID": 1020,
+                "Name": "fontdrvhost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.008994803920567616
+            },
+            {
+                "PID": 1028,
+                "Name": "WUDFHost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.036368180176132844
+            },
+            {
+                "PID": 1092,
+                "Name": "RuntimeBroker.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.019837189186981553
+            },
+            {
+                "PID": 1148,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.17911814942362755
+            },
+            {
+                "PID": 1208,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.05445502914073367
+            },
+            {
+                "PID": 1288,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.009772732908292383
+            },
+            {
+                "PID": 1348,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.02878337254581637
+            },
+            {
+                "PID": 1368,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.05416330577033689
+            },
+            {
+                "PID": 1412,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.04818297667720274
+            },
+            {
+                "PID": 1452,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.05926846475228066
+            },
+            {
+                "PID": 1496,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.05207262161582658
+            },
+            {
+                "PID": 1512,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.10866695547280336
+            },
+            {
+                "PID": 1580,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.20065705827125704
+            },
+            {
+                "PID": 1628,
+                "Name": "IntelCpHDCPSvc.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.0034034393212958544
+            },
+            {
+                "PID": 1636,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.02294890513788062
+            },
+            {
+                "PID": 1688,
+                "Name": "dwm.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 1.6850428079735777
+            },
+            {
+                "PID": 1740,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.055865025430984816
+            },
+            {
+                "PID": 1772,
+                "Name": "dllhost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.06874947429017626
+            },
+            {
+                "PID": 1844,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.015315476945831347
+            },
+            {
+                "PID": 1860,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.04934987015878989
+            },
+            {
+                "PID": 1976,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.0958797477370775
+            },
+            {
+                "PID": 1992,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.061796733962386156
+            },
+            {
+                "PID": 2088,
+                "Name": "IntelCpHeciSvc.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.02246269952055264
+            },
+            {
+                "PID": 2120,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.056010887116183204
+            },
+            {
+                "PID": 2248,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.1100283312013217
+            },
+            {
+                "PID": 2292,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.102735246941402
+            },
+            {
+                "PID": 2312,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.10006111604609813
+            },
+            {
+                "PID": 2388,
+                "Name": "igfxCUIService.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.029512680971808338
+            },
+            {
+                "PID": 2396,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.024845107045459742
+            },
+            {
+                "PID": 2416,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.07380601271038725
+            },
+            {
+                "PID": 2448,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.1240796735421003
+            },
+            {
+                "PID": 2472,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.01332203391478663
+            },
+            {
+                "PID": 2484,
+                "Name": "conhost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.026838550076504455
+            },
+            {
+                "PID": 2568,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.06354707418476689
+            },
+            {
+                "PID": 2580,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.013273413353053834
+            },
+            {
+                "PID": 2668,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.03116578007072347
+            },
+            {
+                "PID": 2688,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.03476370163895051
+            },
+            {
+                "PID": 2752,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.02664406782957326
+            },
+            {
+                "PID": 2852,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.048717802856263516
+            },
+            {
+                "PID": 2856,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.05017641970824746
+            },
+            {
+                "PID": 2932,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.021004082668568704
+            },
+            {
+                "PID": 2956,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.017795125594204042
+            },
+            {
+                "PID": 2964,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.04521712241150207
+            },
+            {
+                "PID": 3068,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.012884448859191449
+            },
+            {
+                "PID": 3108,
+                "Name": "SystemSettingsBroker.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.12490622309155788
+            },
+            {
+                "PID": 3176,
+                "Name": "RuntimeBroker.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.13215068678974476
+            },
+            {
+                "PID": 3192,
+                "Name": "WUDFHost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.030241989397800307
+            },
+            {
+                "PID": 3204,
+                "Name": "RuntimeBroker.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.10142249177461646
+            },
+            {
+                "PID": 3272,
+                "Name": "sihost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.4136637392226447
+            },
+            {
+                "PID": 3296,
+                "Name": "svchost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.13905480655580205
+            },
+            {
+                "PID": 3320,
+                "Name": "svchost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.028054064119824404
+            },
+            {
+                "PID": 3344,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.17858332324456677
+            },
+            {
+                "PID": 3368,
+                "Name": "svchost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.020615118174706317
+            },
+            {
+                "PID": 3420,
+                "Name": "svchost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.271399975592478
+            },
+            {
+                "PID": 3436,
+                "Name": "igfxEM.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.03962575781223031
+            },
+            {
+                "PID": 3540,
+                "Name": "taskhostw.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.12310726230744433
+            },
+            {
+                "PID": 3564,
+                "Name": "AggregatorHost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.037340591410788805
+            },
+            {
+                "PID": 3600,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.09101769156379771
+            },
+            {
+                "PID": 3636,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.14532685901933298
+            },
+            {
+                "PID": 3676,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.07750117540207989
+            },
+            {
+                "PID": 3764,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.027033032323435645
+            },
+            {
+                "PID": 3936,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.05455227026419927
+            },
+            {
+                "PID": 3948,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.06481120878981964
+            },
+            {
+                "PID": 4000,
+                "Name": "audiodg.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.9755229506068575
+            },
+            {
+                "PID": 4108,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.03379129040429456
+            },
+            {
+                "PID": 4148,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.019788568625248755
+            },
+            {
+                "PID": 4168,
+                "Name": "wlanext.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.023289249070010207
+            },
+            {
+                "PID": 4208,
+                "Name": "spoolsv.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.031214400632456264
+            },
+            {
+                "PID": 4244,
+                "Name": "svchost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.03826438208371197
+            },
+            {
+                "PID": 4312,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.17624953628139248
+            },
+            {
+                "PID": 4372,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.029026475354480358
+            },
+            {
+                "PID": 4396,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.1406592850929844
+            },
+            {
+                "PID": 4412,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.0722015341732049
+            },
+            {
+                "PID": 4636,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.010793764704681139
+            },
+            {
+                "PID": 4656,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.11372349389301435
+            },
+            {
+                "PID": 4664,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.26104379594339205
+            },
+            {
+                "PID": 4684,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.22093183251383378
+            },
+            {
+                "PID": 4776,
+                "Name": "RuntimeBroker.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.08265495494575648
+            },
+            {
+                "PID": 4788,
+                "Name": "OneApp.IGCC.WinService.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.0772580725934159
+            },
+            {
+                "PID": 4796,
+                "Name": "svchost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.0539202029616729
+            },
+            {
+                "PID": 4828,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.09699802065693186
+            },
+            {
+                "PID": 4852,
+                "Name": "jhi_service.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.0034520598830286527
+            },
+            {
+                "PID": 4876,
+                "Name": "esif_uf.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.008314116056308444
+            },
+            {
+                "PID": 4964,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.03923679331836792
+            },
+            {
+                "PID": 5300,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.027665099625962017
+            },
+            {
+                "PID": 5316,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.09889422256451098
+            },
+            {
+                "PID": 5344,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.13667239903089495
+            },
+            {
+                "PID": 5352,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.008459977741506839
+            },
+            {
+                "PID": 5432,
+                "Name": "WMIRegistrationService.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.014051342340778601
+            },
+            {
+                "PID": 5448,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.1382282570063445
+            },
+            {
+                "PID": 6024,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.06121328722159258
+            },
+            {
+                "PID": 6212,
+                "Name": "RuntimeBroker.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.14693133755651533
+            },
+            {
+                "PID": 6244,
+                "Name": "SecurityHealthService.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.0912607943724617
+            },
+            {
+                "PID": 6604,
+                "Name": "ctfmon.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.35974353626097183
+            },
+            {
+                "PID": 6620,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.11775900051683658
+            },
+            {
+                "PID": 6636,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.013467895599985024
+            },
+            {
+                "PID": 6912,
+                "Name": "WmiPrvSE.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.18329951773264816
+            },
+            {
+                "PID": 7220,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.042202647584068595
+            },
+            {
+                "PID": 7532,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.04492539904110528
+            },
+            {
+                "PID": 7560,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.011279970322009118
+            },
+            {
+                "PID": 7688,
+                "Name": "SearchIndexer.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.42100544404429724
+            },
+            {
+                "PID": 7748,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.05319089453568093
+            },
+            {
+                "PID": 7944,
+                "Name": "svchost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.13492205880851424
+            },
+            {
+                "PID": 7972,
+                "Name": "backgroundTaskHost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.028929234231014764
+            },
+            {
+                "PID": 8004,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.036368180176132844
+            },
+            {
+                "PID": 8096,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.13253965128360712
+            },
+            {
+                "PID": 8264,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.08299529887788605
+            },
+            {
+                "PID": 8316,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.05766398621509834
+            },
+            {
+                "PID": 8640,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.10365903761432517
+            },
+            {
+                "PID": 8696,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.10594420401576668
+            },
+            {
+                "PID": 9200,
+                "Name": "LocationNotificationWindows.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.01448892739637378
+            },
+            {
+                "PID": 9400,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.05999777317827264
+            },
+            {
+                "PID": 9712,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.053871582399940096
+            },
+            {
+                "PID": 11304,
+                "Name": "RuntimeBroker.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.03680576523172803
+            },
+            {
+                "PID": 11404,
+                "Name": "RuntimeBroker.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.09155251774285848
+            },
+            {
+                "PID": 12100,
+                "Name": "conhost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.005445502914073368
+            },
+            {
+                "PID": 12284,
+                "Name": "RuntimeBroker.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.08046702966778056
+            },
+            {
+                "PID": 12968,
+                "Name": "RuntimeBroker.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.4614577514059851
+            },
+            {
+                "PID": 13020,
+                "Name": "RuntimeBroker.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.1053121367132403
+            },
+            {
+                "PID": 13188,
+                "Name": "svchost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.06505431159848363
+            },
+            {
+                "PID": 13844,
+                "Name": "cmd.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.0009724112346559585
+            },
+            {
+                "PID": 13900,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.04701608319561559
+            },
+            {
+                "PID": 13992,
+                "Name": "ApplicationFrameHost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.2058594583766664
+            },
+            {
+                "PID": 14144,
+                "Name": "svchost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.10506903390457632
+            },
+            {
+                "PID": 14304,
+                "Name": "RuntimeBroker.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.20892255376583269
+            },
+            {
+                "PID": 15080,
+                "Name": "UserOOBEBroker.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.06524879384541482
+            },
+            {
+                "PID": 15980,
+                "Name": "dllhost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.06442224429595725
+            },
+            {
+                "PID": 17148,
+                "Name": "conhost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.07871668944539983
+            },
+            {
+                "PID": 17188,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.09092045044033212
+            },
+            {
+                "PID": 18716,
+                "Name": "taskhostw.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.03340232591043217
+            },
+            {
+                "PID": 19848,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.04881504397972912
+            },
+            {
+                "PID": 19920,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.159767165853974
+            },
+            {
+                "PID": 20088,
+                "Name": "sppsvc.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.1522309787853903
+            },
+            {
+                "PID": 20104,
+                "Name": "SearchProtocolHost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.15514821248935817
+            },
+            {
+                "PID": 20720,
+                "Name": "smartscreen.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.12466312028289388
+            },
+            {
+                "PID": 21072,
+                "Name": "conhost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.016968576044746476
+            },
+            {
+                "PID": 21232,
+                "Name": "backgroundTaskHost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.0011182729198543524
+            },
+            {
+                "PID": 21240,
+                "Name": "conhost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.012981689982657045
+            },
+            {
+                "PID": 21448,
+                "Name": "DataExchangeHost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.20333118916656093
+            },
+            {
+                "PID": 21676,
+                "Name": "svchost.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.08231461101362689
+            },
+            {
+                "PID": 22260,
+                "Name": "conhost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.07686910809955352
+            },
+            {
+                "PID": 22944,
+                "Name": "dllhost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.2787903009758633
+            },
+            {
+                "PID": 23856,
+                "Name": "conhost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.08124495865550532
+            }
+        ],
+        "Application Process Info": [
+            {
+                "PID": 0,
+                "Name": "System Idle Process",
+                "Username": "NT AUTHORITY\\SYSTEM",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 9.724112346559585e-5
+            },
+            {
+                "PID": 4,
+                "Name": "System",
+                "Username": "NT AUTHORITY\\SYSTEM",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.024310280866398963
+            },
+            {
+                "PID": 76,
+                "Name": "",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.28656959085311096
+            },
+            {
+                "PID": 116,
+                "Name": "Registry",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.34471978268553727
+            },
+            {
+                "PID": 164,
+                "Name": "msedge.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 1.1838620576318966
+            },
+            {
+                "PID": 272,
+                "Name": "msedge.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.021149944353767096
+            },
+            {
+                "PID": 560,
+                "Name": "rsAppUI.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.23576110384233712
+            },
+            {
+                "PID": 652,
+                "Name": "chrome.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.0797863418035214
+            },
+            {
+                "PID": 724,
+                "Name": "msedgewebview2.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.053579859029543306
+            },
+            {
+                "PID": 1088,
+                "Name": "bash.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.055476060937122436
+            },
+            {
+                "PID": 1652,
+                "Name": "bash.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.027762340749427614
+            },
+            {
+                "PID": 2028,
+                "Name": "LockApp.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.19822603018461712
+            },
+            {
+                "PID": 2432,
+                "Name": "Arc.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.19399604131386372
+            },
+            {
+                "PID": 2564,
+                "Name": "msedgewebview2.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.0005348261790607771
+            },
+            {
+                "PID": 2708,
+                "Name": "MemCompression",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 1.9541576171646142
+            },
+            {
+                "PID": 3088,
+                "Name": "Spotify.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.21077013511167902
+            },
+            {
+                "PID": 3164,
+                "Name": "HxOutlook.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.009529630099628393
+            },
+            {
+                "PID": 3284,
+                "Name": "msedgewebview2.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.04239712983099979
+            },
+            {
+                "PID": 3716,
+                "Name": "Code.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.11639762478831822
+            },
+            {
+                "PID": 3772,
+                "Name": "chrome.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.13978411498179402
+            },
+            {
+                "PID": 3860,
+                "Name": "crashpad_handler.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.04157058028154222
+            },
+            {
+                "PID": 4032,
+                "Name": "chrome.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.4415719416572707
+            },
+            {
+                "PID": 4340,
+                "Name": "rsEDRSvc.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.13667239903089495
+            },
+            {
+                "PID": 4408,
+                "Name": "explorer.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 2.429618090349645
+            },
+            {
+                "PID": 4480,
+                "Name": "msedgewebview2.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.0680687864259171
+            },
+            {
+                "PID": 4556,
+                "Name": "bash.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.003208957074364663
+            },
+            {
+                "PID": 4572,
+                "Name": "TextInputHost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.28097822625383917
+            },
+            {
+                "PID": 4608,
+                "Name": "rsAppUI.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.32439638788122777
+            },
+            {
+                "PID": 4952,
+                "Name": "PsiService_2.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.003306198197830259
+            },
+            {
+                "PID": 4972,
+                "Name": "PsiService_2.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.006028949654866943
+            },
+            {
+                "PID": 4988,
+                "Name": "rsClientSvc.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.013516516161717822
+            },
+            {
+                "PID": 5016,
+                "Name": "rsDNSClientSvc.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.013370654476519429
+            },
+            {
+                "PID": 5024,
+                "Name": "rsDNSResolver.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.04701608319561559
+            },
+            {
+                "PID": 5080,
+                "Name": "rsDNSSvc.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.17722194751604844
+            },
+            {
+                "PID": 5152,
+                "Name": "rsEngineSvc.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 2.352068294385832
+            },
+            {
+                "PID": 5176,
+                "Name": "rsSyncSvc.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.07949461843312461
+            },
+            {
+                "PID": 5192,
+                "Name": "rsVPNClientSvc.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.020420635927775127
+            },
+            {
+                "PID": 5232,
+                "Name": "rsVPNSvc.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.18680019817740962
+            },
+            {
+                "PID": 5260,
+                "Name": "rsWSC.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.07176394911760973
+            },
+            {
+                "PID": 5428,
+                "Name": "Arc.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.07876531000713263
+            },
+            {
+                "PID": 5456,
+                "Name": "bash.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.01760064334727285
+            },
+            {
+                "PID": 5472,
+                "Name": "wslservice.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.07054843507428979
+            },
+            {
+                "PID": 5632,
+                "Name": "SearchHost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.1008390450338229
+            },
+            {
+                "PID": 5860,
+                "Name": "StartMenuExperienceHost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.14168031688937316
+            },
+            {
+                "PID": 6200,
+                "Name": "rsAppUI.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.06651292845046755
+            },
+            {
+                "PID": 6432,
+                "Name": "gamingservices.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.1873350243564704
+            },
+            {
+                "PID": 6444,
+                "Name": "gamingservicesnet.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.00724446369818689
+            },
+            {
+                "PID": 6468,
+                "Name": "rsAppUI.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.06782568361725311
+            },
+            {
+                "PID": 6524,
+                "Name": "Code.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 1.436154152463385
+            },
+            {
+                "PID": 7352,
+                "Name": "bash.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.06359569474649969
+            },
+            {
+                "PID": 7616,
+                "Name": "rsAppUI.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.08294667831615325
+            },
+            {
+                "PID": 7720,
+                "Name": "rsAppUI.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.06024087598693662
+            },
+            {
+                "PID": 7768,
+                "Name": "node.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.40656513720965626
+            },
+            {
+                "PID": 7880,
+                "Name": "chrome.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.06213707789451575
+            },
+            {
+                "PID": 8112,
+                "Name": "msedge.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.11542521355366227
+            },
+            {
+                "PID": 8144,
+                "Name": "WidgetService.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.09942904874357175
+            },
+            {
+                "PID": 8260,
+                "Name": "chrome.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.4578112092760252
+            },
+            {
+                "PID": 8460,
+                "Name": "msedgewebview2.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.06520017328368201
+            },
+            {
+                "PID": 8552,
+                "Name": "BlueStacksServices.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.04395298780644932
+            },
+            {
+                "PID": 8592,
+                "Name": "msedge.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.057275021721235955
+            },
+            {
+                "PID": 8612,
+                "Name": "FileCoAuth.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.052169862739292173
+            },
+            {
+                "PID": 8876,
+                "Name": "msedge.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.31447779328773695
+            },
+            {
+                "PID": 9044,
+                "Name": "Widgets.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.38818656487465864
+            },
+            {
+                "PID": 9260,
+                "Name": "rsAppUI.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.05776122733856393
+            },
+            {
+                "PID": 9460,
+                "Name": "rsAppUI.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.07268773979053289
+            },
+            {
+                "PID": 9516,
+                "Name": "WhatsApp.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.1706095511203879
+            },
+            {
+                "PID": 9576,
+                "Name": "rsAppUI.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.19603810490664123
+            },
+            {
+                "PID": 9592,
+                "Name": "Spotify.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.97591191510072
+            },
+            {
+                "PID": 9696,
+                "Name": "Code.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 2.965611162892009
+            },
+            {
+                "PID": 9876,
+                "Name": "rsAppUI.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.1854874430106241
+            },
+            {
+                "PID": 9992,
+                "Name": "Code.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.397229989356959
+            },
+            {
+                "PID": 10340,
+                "Name": "rsAppUI.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.02358097244040699
+            },
+            {
+                "PID": 10452,
+                "Name": "rsHelper.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.05737226284470155
+            },
+            {
+                "PID": 10456,
+                "Name": "BlueStacksServices.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.1427013486857619
+            },
+            {
+                "PID": 10488,
+                "Name": "msteams.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.1576278611377309
+            },
+            {
+                "PID": 10548,
+                "Name": "Code.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.016530990989151294
+            },
+            {
+                "PID": 10552,
+                "Name": "Spotify.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.03481232220068332
+            },
+            {
+                "PID": 10556,
+                "Name": "SpotifyWidgetProvider.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.16214957337888106
+            },
+            {
+                "PID": 10652,
+                "Name": "BraveCrashHandler.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.00024310280866398962
+            },
+            {
+                "PID": 10660,
+                "Name": "BraveCrashHandler64.exe",
+                "Username": null,
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.0007779289877247668
+            },
+            {
+                "PID": 10768,
+                "Name": "chrome.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.12101657815293404
+            },
+            {
+                "PID": 10772,
+                "Name": "msedge.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.07584807630316476
+            },
+            {
+                "PID": 10792,
+                "Name": "Code.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 1.8345024147401985
+            },
+            {
+                "PID": 10800,
+                "Name": "rsAppUI.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.4350567863850758
+            },
+            {
+                "PID": 10872,
+                "Name": "Spotify.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.01706581716821207
+            },
+            {
+                "PID": 10900,
+                "Name": "msedgewebview2.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.030630953891662694
+            },
+            {
+                "PID": 10904,
+                "Name": "chrome.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.18825881502939357
+            },
+            {
+                "PID": 10940,
+                "Name": "rsAppUI.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.06257466295011092
+            },
+            {
+                "PID": 10952,
+                "Name": "Spotify.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.11761313883163818
+            },
+            {
+                "PID": 10992,
+                "Name": "rsAppUI.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.24981244618311577
+            },
+            {
+                "PID": 11004,
+                "Name": "node.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.0015558579754495335
+            },
+            {
+                "PID": 11148,
+                "Name": "msedgewebview2.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.0001944822469311917
+            },
+            {
+                "PID": 11288,
+                "Name": "BlueStacksServices.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.07789013989594228
+            },
+            {
+                "PID": 11592,
+                "Name": "bash.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.13783929251248211
+            },
+            {
+                "PID": 11708,
+                "Name": "chrome.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.07832772495153746
+            },
+            {
+                "PID": 11808,
+                "Name": "Arc.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.03850748489237595
+            },
+            {
+                "PID": 11912,
+                "Name": "Arc.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.10010973660783092
+            },
+            {
+                "PID": 12508,
+                "Name": "Code.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.7935848086027277
+            },
+            {
+                "PID": 12668,
+                "Name": "chrome.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.03208957074364663
+            },
+            {
+                "PID": 13100,
+                "Name": "Figma.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.19146777210375823
+            },
+            {
+                "PID": 13360,
+                "Name": "OneDrive.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.1847095140228993
+            },
+            {
+                "PID": 13416,
+                "Name": "BlueStacksServices.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.3054829893671694
+            },
+            {
+                "PID": 13492,
+                "Name": "Arc.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.03884782882450554
+            },
+            {
+                "PID": 13988,
+                "Name": "Code.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.15266856384098548
+            },
+            {
+                "PID": 14056,
+                "Name": "chrome.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.13463033543811745
+            },
+            {
+                "PID": 14124,
+                "Name": "Code.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.04789125330680596
+            },
+            {
+                "PID": 14160,
+                "Name": "msedge.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 1.6263577899620907
+            },
+            {
+                "PID": 14208,
+                "Name": "Spotify.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 1.8660571593047843
+            },
+            {
+                "PID": 14252,
+                "Name": "ShellExperienceHost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 1.4914357311535764
+            },
+            {
+                "PID": 14292,
+                "Name": "Figma.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.09267079066271285
+            },
+            {
+                "PID": 14360,
+                "Name": "msedgewebview2.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.36494593636638123
+            },
+            {
+                "PID": 14392,
+                "Name": "msedgewebview2.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.03155474456458585
+            },
+            {
+                "PID": 14552,
+                "Name": "chrome.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.5797029575401497
+            },
+            {
+                "PID": 14616,
+                "Name": "msedgewebview2.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.08625287651398351
+            },
+            {
+                "PID": 14624,
+                "Name": "msedgewebview2.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.17654125965178927
+            },
+            {
+                "PID": 14684,
+                "Name": "msedgewebview2.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.055573302060588026
+            },
+            {
+                "PID": 14716,
+                "Name": "bash.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.0034520598830286527
+            },
+            {
+                "PID": 14732,
+                "Name": "msedgewebview2.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.38838104712158983
+            },
+            {
+                "PID": 14996,
+                "Name": "Arc.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.18573054581928805
+            },
+            {
+                "PID": 15008,
+                "Name": "chrome.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 6.752326372327511
+            },
+            {
+                "PID": 15124,
+                "Name": "SystemSettings.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.013467895599985024
+            },
+            {
+                "PID": 15368,
+                "Name": "chrome.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.3296960291101027
+            },
+            {
+                "PID": 15572,
+                "Name": "HxTsr.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.05406606464687129
+            },
+            {
+                "PID": 15668,
+                "Name": "Arc.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.05221848330102497
+            },
+            {
+                "PID": 15792,
+                "Name": "Code.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 1.9575124359241771
+            },
+            {
+                "PID": 15916,
+                "Name": "chrome.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.06291500688224051
+            },
+            {
+                "PID": 16120,
+                "Name": "chrome.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 2.059615615563053
+            },
+            {
+                "PID": 16392,
+                "Name": "msedge.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.18436917009076972
+            },
+            {
+                "PID": 16432,
+                "Name": "chrome.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 1.1483204270052214
+            },
+            {
+                "PID": 16472,
+                "Name": "chrome.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.28506235343939423
+            },
+            {
+                "PID": 16832,
+                "Name": "bash.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.01789236671766964
+            },
+            {
+                "PID": 16916,
+                "Name": "chrome.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.13871446262367246
+            },
+            {
+                "PID": 16928,
+                "Name": "Code.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.32220846260325187
+            },
+            {
+                "PID": 17092,
+                "Name": "Arc.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.478815291944594
+            },
+            {
+                "PID": 17328,
+                "Name": "Code.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.25413967617733474
+            },
+            {
+                "PID": 17588,
+                "Name": "python.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.4072944456356482
+            },
+            {
+                "PID": 18004,
+                "Name": "bash.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.001944822469311917
+            },
+            {
+                "PID": 18016,
+                "Name": "Arc.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.8802266496105736
+            },
+            {
+                "PID": 18072,
+                "Name": "chrome.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.14950822732835362
+            },
+            {
+                "PID": 18076,
+                "Name": "chrome.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 1.4068845743002407
+            },
+            {
+                "PID": 18124,
+                "Name": "msedge.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.2678506745859838
+            },
+            {
+                "PID": 18204,
+                "Name": "msedge.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 1.2296626267841924
+            },
+            {
+                "PID": 18612,
+                "Name": "chrome.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.6312407529769155
+            },
+            {
+                "PID": 18684,
+                "Name": "chrome.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.5805295070896073
+            },
+            {
+                "PID": 18756,
+                "Name": "chrome.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.9067248557549484
+            },
+            {
+                "PID": 18800,
+                "Name": "node.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.0029172337039678753
+            },
+            {
+                "PID": 19216,
+                "Name": "bash.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.016530990989151294
+            },
+            {
+                "PID": 19260,
+                "Name": "Code.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.05737226284470155
+            },
+            {
+                "PID": 19424,
+                "Name": "bash.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.10127663008941806
+            },
+            {
+                "PID": 19444,
+                "Name": "Code.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 2.2285720675845258
+            },
+            {
+                "PID": 19784,
+                "Name": "Code.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.024261660304666165
+            },
+            {
+                "PID": 19908,
+                "Name": "msedge.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.05941432643747906
+            },
+            {
+                "PID": 20228,
+                "Name": "figma_agent.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.07234739585840332
+            },
+            {
+                "PID": 20280,
+                "Name": "bash.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.09271941122444563
+            },
+            {
+                "PID": 20492,
+                "Name": "msedge.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.04891228510319471
+            },
+            {
+                "PID": 20496,
+                "Name": "chrome.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.12519794646195465
+            },
+            {
+                "PID": 21120,
+                "Name": "chrome.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.1382282570063445
+            },
+            {
+                "PID": 21176,
+                "Name": "Figma.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.056253989924847196
+            },
+            {
+                "PID": 21460,
+                "Name": "PhoneExperienceHost.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.2294404308170734
+            },
+            {
+                "PID": 21584,
+                "Name": "bash.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.13453309431465185
+            },
+            {
+                "PID": 21760,
+                "Name": "WhatsApp.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 6.013147972303783
+            },
+            {
+                "PID": 21772,
+                "Name": "bash.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.10905591996666573
+            },
+            {
+                "PID": 22128,
+                "Name": "Code.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.5079876289842726
+            },
+            {
+                "PID": 22200,
+                "Name": "chrome.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.6574958563126263
+            },
+            {
+                "PID": 22564,
+                "Name": "Code.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.13735308689515413
+            },
+            {
+                "PID": 22620,
+                "Name": "bash.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.05785846846202953
+            },
+            {
+                "PID": 23072,
+                "Name": "pwahelper.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.02790820243462601
+            },
+            {
+                "PID": 23136,
+                "Name": "Code.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.21227737252539572
+            },
+            {
+                "PID": 23248,
+                "Name": "Code.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 2.6585723155493906
+            },
+            {
+                "PID": 23804,
+                "Name": "Figma.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.30096127712601917
+            },
+            {
+                "PID": 24088,
+                "Name": "Code.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.9964784127136934
+            },
+            {
+                "PID": 24452,
+                "Name": "Figma.exe",
+                "Username": "VHINNYPC\\Hillary",
+                "CPU Percent (%)": 0,
+                "Memory Percent (%)": 0.2928416433166419
+            }
+        ]
+    },
+    "Uptime": "17:09:53",
+    "Battery Info": {
+        "Battery Percent (%)": 100,
+        "Power Plugged": true,
+        "Battery Time Left": "0:00:00"
+    },
+    "Public IP": "98.97.79.95",
+    "Health Status": {
+        "CPU Health": [
+            "CPU usage is within normal range. Health: OK"
+        ],
+        "Memory Health": [
+            "High memory usage detected. Health: NOT OK"
+        ],
+        "Disk Health": [
+            "Low disk space on C:\\. Health: NOT OK"
+        ],
+        "Battery Health": [
+            "Battery level is sufficient or charging. Health: OK"
+        ],
+        "Uptime Health": [
+            "System uptime is within normal range. Health: OK"
+        ],
+        "Process Health": []
+    }
+}

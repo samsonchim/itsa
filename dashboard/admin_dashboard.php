@@ -118,6 +118,8 @@ try {
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 </head>
 
 <body>
@@ -284,6 +286,35 @@ try {
                 </div>
             </div>
     
+
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-secondary text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Online Systems</h6>
+                        <a href="">Show All</a>
+                    </div>
+                    <div class="table-responsive">
+                     <table id="system-info-table" class="table text-start align-middle table-bordered table-hover mb-0">
+                        <thead>
+                            <tr class="text-white">
+                                <th scope="col"><input class="form-check-input" type="checkbox"></th>
+                                <th scope="col">Staff Name</th>
+                                <th scope="col">PC Name</th>
+                                <th scope="col">CPU Health</th>
+                                <th scope="col">Battery Health</th>
+                                <th scope="col">Uptime</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Table rows will be dynamically populated by JavaScript -->
+                    </tbody>
+                    </table>
+
+                    </div>
+                </div>
+            </div>
+
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
                     <div class="col-sm-12 col-xl-6">
@@ -307,76 +338,6 @@ try {
                 </div>
             </div>
 
-            <div class="container-fluid pt-4 px-4">
-                <div class="bg-secondary text-center rounded p-4">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">Online Systems</h6>
-                        <a href="">Show All</a>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table text-start align-middle table-bordered table-hover mb-0">
-                            <thead>
-                                <tr class="text-white">
-                                    <th scope="col"><input class="form-check-input" type="checkbox"></th>
-                                    <th scope="col">Staff Name</th>
-                                    <th scope="col">PC Name</th>
-                                    <th scope="col">PC Model</th>
-                                    <th scope="col">Battery Health</th>
-                                    <th scope="col">Open Programs</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
 
             <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
@@ -495,9 +456,43 @@ try {
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
+<script>
+    $(document).ready(function() {
+    // AJAX request to fetch system info
+    $.ajax({
+        url: 'fetch_system_info.php',
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            // Clear existing table rows
+            $('#system-info-table tbody').empty();
 
-    <!-- JavaScript Libraries -->
+            // Populate table with fetched data
+            response.forEach(function(data) {
+                var row = `<tr>
+                               <td><input class="form-check-input" type="checkbox"></td>
+                               <td>${data.staff_name}</td>
+                               <td>${data.pc_name}</td>
+                               <td>${data.cpu_health}</td>
+                               <td>${data.battery_health}</td>
+                               <td>${data.uptime}</td>
+                               <td><a class="btn btn-sm btn-primary" href="detailed_info.php?id=${data.email}">Detailed Info</a></td>
+                           </tr>`;
+                $('#system-info-table tbody').append(row);
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error fetching system info:', error);
+        }
+    });
+});
+</script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="lib/chart/chart.min.js"></script>
     <script src="lib/easing/easing.min.js"></script>

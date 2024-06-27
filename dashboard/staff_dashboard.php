@@ -25,11 +25,14 @@ try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Fetch staff details
-    $stmt = $conn->prepare("SELECT name, organisation_id FROM staffs WHERE id = :id");
+    $stmt = $conn->prepare("SELECT name, email, organisation_id FROM staffs WHERE id = :id");
     $stmt->bindParam(':id', $loggedInUserId);
     $stmt->execute();
     $staffRow = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $staffEmail = $staffRow['email'];
+
+    echo '<script>localStorage.setItem("staff_email", "' . $staffEmail . '");</script>';
 
     if ($staffRow) {
         $staffName = $staffRow['name'];
@@ -168,6 +171,7 @@ $conn = null;
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
 <body>
@@ -213,7 +217,7 @@ $conn = null;
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <i class="fa fa-bell me-lg-2"></i>
-                            <span class="d-none d-lg-inline-flex">Notifications</span>
+                            <span class="d-none d-lg-inline-flex">Notification</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item">
@@ -275,9 +279,20 @@ $conn = null;
                             <div class="d-flex align-items-center justify-content-between mb-4">
                                 <h6 class="mb-0">Sytem Information</h6>
                             </div>
-                           
-                                <p>jsj</p>
-                           
+                                <p class="system-write">Operating System: <span class="system_results"  id="os-info"></span></p>
+                                <p class="system-write">CPU Health: <span class="system_results" id="cpu-health"></span></p>
+                                <p class="system-write">Memory Health: <span class="system_results" id="memory-health"></span></p>
+                                <p class="system-write">Battery Health: <span class="system_results"  id="battery-health"></span></p>
+                            <style>
+                                .system-write{
+                                    color: white;
+                                    text-align: left;
+                                }
+
+                                .system_results{
+                                    color:  #6aa9d8;
+                                }
+                            </style>
                         </div>
                     </div>
                 </div>
@@ -383,35 +398,88 @@ $conn = null;
     </div>
 
     <!-- JavaScript Libraries -->
-
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('request_sent').getContext('2d');
-            const monthlyData = <?php echo $jsonData; ?>;
-            const labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        
+document.addEventListener("DOMContentLoaded", function() {
+    var elements = document.querySelectorAll("*");
 
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Requests',
-                        data: Object.values(monthlyData),
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+    elements.forEach(function(element) {
+        if (element.textContent === ": NOT OK") {
+            element.style.color = "red";
+        }
+    });
+});
+
+  $(document).ready(function() {
+    // Retrieve email from local storage
+    var email = localStorage.getItem('staff_email');
+
+    // Check if email exists in local storage
+    if (!email) {
+        console.error('Email not found in local storage');
+        return;
+    }
+
+    // Ajax request to fetch system info based on email
+    $.ajax({
+        url: '../systems/' + encodeURIComponent(email) + '.json', // Construct the URL
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            displayUserInfo(data); // Assuming data directly contains the user info
+        },
+        error: function(xhr, status, error) {
+            console.error('Error fetching system info:', error);
+        }
+    });
+
+    function displayUserInfo(userInfo) {
+        // Update HTML elements with retrieved data
+        $('#os-info').text(userInfo['OS Info']['Operating System']);
+        $('#cpu-health').text(userInfo['Health Status']['Process Health']);
+        $('#memory-health').text(userInfo['Health Status']['Memory Health']);
+        $('#battery-health').text(userInfo['Health Status']['Battery Health']);
+    }
+});
+
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('request_sent').getContext('2d');
+    const monthlyData = <?php echo $jsonData; ?>;
+    const labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Requests',
+                data: Object.values(monthlyData),
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1 
+                    },
+                    title: {
+                        display: true,
+                        text: 'Number of Day'  
                     }
                 }
-            });
-        });
+            }
+        }
+    });
+});
+
     </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

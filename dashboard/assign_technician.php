@@ -15,6 +15,17 @@ $dbname = "itsa";
 
 $requestId = $_GET['id'];
 
+// Function to calculate distance between two points using Haversine formula
+function calculateDistance($lat1, $lon1, $lat2, $lon2) {
+    $theta = $lon1 - $lon2;
+    $distance = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+    $distance = acos($distance);
+    $distance = rad2deg($distance);
+    $distance = $distance * 60 * 1.1515; // Miles
+
+    return $distance;
+}
+
 try {
     // Establishing a connection to the database
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -32,36 +43,82 @@ try {
     $request = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($request) {
-        // Fetch the staff email using staff_id
-        $stmt = $conn->prepare("SELECT email FROM staffs WHERE id = :staff_id");
+        // Fetch the staff email and IP using staff_id
+        $stmt = $conn->prepare("SELECT email, ip_address FROM staffs WHERE id = :staff_id");
         $stmt->bindParam(':staff_id', $request['staff_id']);
         $stmt->execute();
         $staff = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($staff) {
-            // Fetch a random technician
-            $stmt = $conn->prepare("SELECT id FROM technicians ORDER BY RAND() LIMIT 1");
-            $stmt->execute();
-            $technician = $stmt->fetch(PDO::FETCH_ASSOC);
+            // Use ipgeolocation.io API to fetch staff's geolocation
+            $ipgeolocation_api_key = '010ab7f877734057a356f48222bcee3c'; 
+            $staff_ip = $staff['ip_address'];
+            $ipgeolocation_url = "https://api.ipgeolocation.io/ipgeo?apiKey=$ipgeolocation_api_key&ip=$staff_ip";
 
-            if ($technician) {
-                // Insert into assigned_requests table
-                $stmt = $conn->prepare("
-                    INSERT INTO request_recieved (technician_id, organisation_id, staff_email, subject_issue, description, notice_date, recieved_on)
-                    VALUES (:technician_id, :organisation_id, :staff_email, :subject_issue, :description, :notice_date, :received_on)
-                ");
-                $stmt->bindParam(':technician_id', $technician['id']);
-                $stmt->bindParam(':organisation_id', $loggedInUserId);
-                $stmt->bindParam(':staff_email', $staff['email']);
-                $stmt->bindParam(':subject_issue', $request['subject_issue']);
-                $stmt->bindParam(':description', $request['description']);
-                $stmt->bindParam(':notice_date', $request['notice_date']);
-                $stmt->bindParam(':received_on', $request['created_at']);
+            // Fetch geolocation data for staff
+            $geo_data = file_get_contents($ipgeolocation_url);
+            $geo_data = json_decode($geo_data, true);
+
+            if ($geo_data && isset($geo_data['latitude']) && isset($geo_data['longitude'])) {
+                $staff_lat = $geo_data['latitude'];
+                $staff_lon = $geo_data['longitude'];
+
+                // Fetch all technicians and their ip addresses from the database
+                $stmt = $conn->prepare("SELECT id, ip_address FROM technicians");
                 $stmt->execute();
+                $technicians = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                $message = "Technician assigned successfully.";
+                if ($technicians) {
+                    $closestTechnician = null;
+                    $minDistance = PHP_INT_MAX;
+
+                    // Calculate distance and find closest technician
+                    foreach ($technicians as $technician) {
+                        // Use ipgeolocation.io API to fetch technician's geolocation
+                        $technician_ip = $technician['ip_address'];
+                        $ipgeolocation_url = "https://api.ipgeolocation.io/ipgeo?apiKey=$ipgeolocation_api_key&ip=$technician_ip";
+
+                        // Fetch geolocation data for technician
+                        $geo_data = file_get_contents($ipgeolocation_url);
+                        $geo_data = json_decode($geo_data, true);
+
+                        if ($geo_data && isset($geo_data['latitude']) && isset($geo_data['longitude'])) {
+                            $technician_lat = $geo_data['latitude'];
+                            $technician_lon = $geo_data['longitude'];
+
+                            // Calculate distance
+                            $distance = calculateDistance($staff_lat, $staff_lon, $technician_lat, $technician_lon);
+
+                            // Determine closest technician
+                            if ($distance < $minDistance) {
+                                $minDistance = $distance;
+                                $closestTechnician = $technician;
+                            }
+                        }
+                    }
+
+                    if ($closestTechnician) {
+                        // Insert into request_recieved table
+                        $stmt = $conn->prepare("
+                            INSERT INTO request_recieved (technician_id, organisation_id, staff_email, request_id, recieved_on)
+                            VALUES (:technician_id, :organisation_id, :staff_email, :request_id, :recieved_on)
+                        ");
+                        $stmt->bindParam(':technician_id', $closestTechnician['id']);
+                        $stmt->bindParam(':organisation_id', $loggedInUserId);
+                        $stmt->bindParam(':staff_email', $staff['email']);
+                        $stmt->bindParam(':request_id', $requestId);
+                        $stmt->bindParam(':recieved_on', $request['created_at']);
+                        $stmt->execute();
+
+                        $message = "Technician assigned successfully.";
+                    } else {
+                        $message = "No technicians available.";
+                    }
+                } else {
+                    $message = "No technicians found.";
+                }
             } else {
-                $message = "No technicians available.";
+                $message = "Failed to fetch staff's geolocation data.";
             }
         } else {
             $message = "Staff email not found.";
@@ -73,6 +130,8 @@ try {
 } catch (PDOException $e) {
     $message = "Connection failed: " . $e->getMessage();
 }
+
+
 ?>
 
 

@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($email) || empty($password)) {
         $response['message'] = 'Email and Password are required';
     } else {
-        $stmt = $conn->prepare('SELECT id, password FROM staffs WHERE email = ?');
+        $stmt = $conn->prepare('SELECT id, password FROM technicians WHERE email = ?');
         if ($stmt === false) {
             $response['message'] = 'Prepare failed: ' . $conn->error;
             echo json_encode($response);
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt->fetch();
 
             if (password_verify($password, $hashed_password)) {
-                $update_stmt = $conn->prepare('UPDATE staffs SET ip_address = ? WHERE id = ?');
+                $update_stmt = $conn->prepare('UPDATE technicians SET ip_address = ? WHERE id = ?');
                 if ($update_stmt === false) {
                     $response['message'] = 'Prepare failed: ' . $conn->error;
                     echo json_encode($response);
@@ -55,10 +55,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 }
                 $update_stmt->close();
             } else {
-                $response['message'] = 'Incorrect Password';
+                $response['message'] = 'Invalid email or password';
             }
         } else {
-            $response['message'] = 'No staff with this email, Contact your admin';
+            $response['message'] = 'No technician found with this email';
         }
         $stmt->close();
     }

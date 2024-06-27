@@ -25,21 +25,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        // Retrieve organisation_id for the logged-in staff member
-        $stmtOrg = $conn->prepare("SELECT organisation_id FROM staffs WHERE id = :staff_id");
+        // Retrieve organisation_id and ip_address for the logged-in staff member
+        $stmtOrg = $conn->prepare("SELECT organisation_id, ip_address FROM staffs WHERE id = :staff_id");
         $stmtOrg->bindParam(':staff_id', $loggedInUserId);
         $stmtOrg->execute();
         $row = $stmtOrg->fetch(PDO::FETCH_ASSOC);
         $organisationId = $row['organisation_id'];
+        $ipAddress = $row['ip_address'];
 
         // Insert into request_sent table
-        $stmt = $conn->prepare("INSERT INTO request_sent (staff_id, organisation_id, subject_issue, description, notice_date) VALUES (:staff_id, :organisation_id, :subject_issue, :description, :notice_date)");
+        $stmt = $conn->prepare("INSERT INTO request_sent (staff_id, organisation_id, subject_issue, description, notice_date, staff_ip) VALUES (:staff_id, :organisation_id, :subject_issue, :description, :notice_date, :staff_ip)");
         
         $stmt->bindParam(':staff_id', $loggedInUserId);
         $stmt->bindParam(':organisation_id', $organisationId);
         $stmt->bindParam(':subject_issue', $subjectIssue);
         $stmt->bindParam(':description', $description);
         $stmt->bindParam(':notice_date', $dayOfNotice);
+        $stmt->bindParam(':staff_ip', $ipAddress);
 
         $stmt->execute();
 
