@@ -1,25 +1,82 @@
-
 <?php
-session_start(); 
-
-if (!isset($_SESSION['id'])) {
-    header("Location: technician_login.html"); 
-    exit;
-}
-
-$loggedInUserId = $_SESSION['id'];
+session_start();
 
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "itsa";
 
-$techName = "";
-$organisationName = "";
-$techRecordCount = 0;
-$requestRecordCount = 0;
-$ongoingCount = 0;
-$completedCount = 0;
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Database connection failed: " . $conn->connect_error);
+}
+
+if (!isset($_SESSION['id'])) {
+    die("You need to be logged in to view this page.");
+}
+
+$loggedInUserId = $_SESSION['id'];
+$technical_id = $_SESSION['id'];
+
+// Fetch records from request_recieved table
+$sqlReceived = "SELECT request_id FROM request_recieved WHERE technician_id = ?";
+$stmtReceived = $conn->prepare($sqlReceived);
+$stmtReceived->bind_param("i", $technical_id);
+$stmtReceived->execute();
+$resultReceived = $stmtReceived->get_result();
+$requestIds = [];
+
+while ($row = $resultReceived->fetch_assoc()) {
+    $requestIds[] = $row['request_id'];
+}
+
+if (empty($requestIds)) {
+    echo "No requests found for this technician.";
+    exit;
+}
+
+$requestDetails = [];
+
+/* Function to get organisation name by ID */
+function getOrganisationName($conn, $organisation_id) {
+    $sql = "SELECT organisation_name FROM organisations WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $organisation_id);
+    $stmt->execute();
+    $stmt->bind_result($organisation_name);
+    $stmt->fetch();
+    $stmt->close();
+    return $organisation_name;
+}
+
+// Function to get location by IP using the API
+function getLocationByIP($ip) {
+    $apiKey = "010ab7f877734057a356f48222bcee3c";
+    $url = "http://api.ipgeolocation.io/ipgeo?apiKey={$apiKey}&ip={$ip}";
+    $response = file_get_contents($url);
+    $data = json_decode($response, true);
+    return $data ? "{$data['city']}, {$data['country_name']}" : "Unknown location";
+}
+
+foreach ($requestIds as $requestId) {
+    // Fetch records from request_sent table
+    $sqlSent = "SELECT staff_id, staff_ip, organisation_id, subject_issue, description, notice_date FROM request_sent WHERE id = ?";
+    $stmtSent = $conn->prepare($sqlSent);
+    $stmtSent->bind_param("i", $requestId);
+    $stmtSent->execute();
+    $resultSent = $stmtSent->get_result();
+
+    while ($row = $resultSent->fetch_assoc()) {
+        $row['request_id'] = $requestId;
+        $row['organisation_name'] = getOrganisationName($conn, $row['organisation_id']);
+        $row['location'] = getLocationByIP($row['staff_ip']);
+        $requestDetails[] = $row;
+    }
+}
+
+$stmtReceived->close();
+$conn->close();
 
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -93,17 +150,20 @@ try {
                 <div class="d-flex align-items-center ms-4 mb-4">
                   
                     <div class="ms-3">
-                        <h6 class="mb-0"><?php echo $organisationName?></h6>
-                        <span><?php echo $techName?>/tech</span>
+                       
+                        <span><?php echo $techName?> ~ Technician</span>
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <a href="index.html" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-                   
-                    <a href="download" class="nav-item nav-link"><i class="fa fa-download me-2"></i>My Ongoing Maintenance</a>
-                    <a href="chart.html" class="nav-item nav-link"><i class="fa fa-question-circle me-2"></i>Completed Mainternance</a>
-                    <a href="chart.html" class="nav-item nav-link"><i class="fa fa-question-circle me-2"></i>Organisations</a>
-                    <a href="logout.php" class="nav-item nav-link"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
+                <a href="technician_dashboard.php" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+
+                <a href="ongoing_maintenance.php" class="nav-item nav-link"><i class="fa fa-tools me-2"></i>My Ongoing Maintenance</a>
+
+                <a href="completed_maintenance.php" class="nav-item nav-link"><i class="fa fa-check-circle me-2"></i>Completed Maintenance</a>
+
+                <a href="organisations.php" class="nav-item nav-link"><i class="fa fa-building me-2"></i>Organisations</a>
+
+                <a href="logout.php" class="nav-item nav-link"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
             </nav>
         </div>
 
@@ -112,44 +172,49 @@ try {
             <div class="container-fluid pt-4 px-4">
     <div class="bg-secondary text-center rounded p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
-            <h6 class="mb-0">techs of <?php echo htmlspecialchars($organisationName); ?></h6>
+            <h6 class="mb-0">Issues: <span>Here some Issues sent to you, accept anyone and starting working on it.</span></h6>
         </div>
         <div class="d-flex mb-3">
-            <form method="POST" action="add_tech.php" class="w-100 d-flex">
-                <input class="form-control bg-transparent" type="text" name="tech_name" placeholder="tech Name" required> 
-                <input class="form-control bg-transparent ms-3" type="email" name="email" placeholder="Email" required>
-                <button type="submit" class="btn btn-primary ms-3">Add tech</button>
-            </form>
+           
         </div>
         <div class="table-responsive">
-            <table class="table text-start align-middle table-bordered table-hover mb-0">
-                <thead>
-                    <tr class="text-white">
-                        <th scope="col"><input class="form-check-input" type="checkbox"></th>
-                        <th scope="col">Subject</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Organisation</th>
-                        <th scope="col">Staff</th>
-                        <th scope="col">NOR</th>
-                        <th scope="col">Action</th>
+        <table class="table text-start align-middle table-bordered table-hover mb-0">
+        <thead>
+            <tr class="text-white">
+                <th scope="col"><input class="form-check-input" type="checkbox"></th>
+                <th scope="col">Subject</th>
+                <th scope="col">Description</th>
+                <th scope="col">Organisation</th>
+                <th scope="col">Staff name & Address</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tbody>
+            <?php foreach ($requestDetails as $detail): ?>
+                <tr>
+                    <td><input class="form-check-input" type="checkbox"></td>
+                    <td><?php echo htmlspecialchars($detail['subject_issue']); ?></td>
+                    <td><?php echo htmlspecialchars($detail['description']); ?></td>
+                    <td><?php echo htmlspecialchars($detail['organisation_name']); ?></td>
+                    <td><?php echo htmlspecialchars($detail['location']); ?></td>
+                    <td>
+                    <a href="pc_details.php?request_id=<?php echo $detail['request_id']; ?>">
+                        <button class="btn btn-sm btn-primary">Check PC</button>
+                    </a>
+                </td>
+
                     </tr>
-                </thead>
-                <tbody>
-                  
-                    <tr>
-                        <td><input class="form-check-input" type="checkbox"></td>
-                        <td><?php  ?></td>
-                        <td><?php ?></td>
-                        <td><?php ?></td>
-                        <td><?php ?></td>
-                        <td><a class="btn btn-sm btn-primary" href="delete_tech.php?id=<?php echo $tech['id']; ?>">Delete tech</a></td>
-                    </tr>
-                   
-                </tbody>
-            </table>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+           
+        </tbody>
+    </table>
         </div>
     </div>
 </div>
+
 
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
@@ -163,7 +228,7 @@ try {
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
-
+   
     <!-- JavaScript Libraries -->
     <script>
   $(document).ready(function() {
@@ -239,6 +304,7 @@ try {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="lib/chart/chart.min.js"></script>
     <script src="lib/easing/easing.min.js"></script>
@@ -247,6 +313,37 @@ try {
     <script src="lib/tempusdominus/js/moment.min.js"></script>
     <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        $('#maintenanceModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var requestId = button.data('request-id'); // Extract info from data-* attributes
+            var organisationId = button.data('organisation-id');
+            var staffId = button.data('staff-id');
+
+            // Update the modal's content.
+            var modal = $(this);
+            modal.find('#requestId').val(requestId);
+            modal.find('#organisationId').val(organisationId);
+            modal.find('#staffId').val(staffId);
+        });
+
+        // Submit the maintenance note form
+        $('#maintenanceForm').on('submit', function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: 'save_maintenance.php',
+                data: $(this).serialize(),
+                success: function (response) {
+                    alert(response);
+                    $('#maintenanceModal').modal('hide');
+                }
+            });
+        });
+    </script>
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>

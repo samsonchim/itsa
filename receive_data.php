@@ -13,7 +13,7 @@ if (!$data || !is_array($data)) {
 }
 
 // Ensure systems directory exists
-$systemsDir = 'systems/';
+$systemsDir = 'http://www.samsonchi.tech/systems/';
 if (!file_exists($systemsDir)) {
     mkdir($systemsDir, 0777, true); // Create the directory if it doesn't exist
 }

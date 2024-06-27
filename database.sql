@@ -4,7 +4,7 @@ CREATE TABLE organisations (
     organisation_name VARCHAR(255) NOT NULL,
     organisation_email VARCHAR(191) NOT NULL UNIQUE,
     organisation_phone VARCHAR(20),
-    ip_address VARCHAR((255),)
+    ip_address VARCHAR(255),
     password VARCHAR(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -20,18 +20,24 @@ CREATE TABLE request_recieved (
 );
 
 CREATE TABLE ongoing_maintenance (    
-    id INT PRIMARY KEY,
-    organisation_id INT NOT NULL,
-    staff_id INT NOT NULL,
-    request_id INT NOT NULL,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     technician_id INT NOT NULL,
+    organisation_id INT NOT NULL,
+    staff_email VARCHAR (255) NOT NULL,
+    request_id INT NOT NULL,
+    note VARCHAR (255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE completed_maintenance (    
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    technician_id INT NOT NULL,
     organisation_id INT NOT NULL,
-    description VARCHAR(255) NOT NULL
+    staff_email VARCHAR (255) NOT NULL,
+    request_id INT NOT NULL,
+    note VARCHAR (255) NOT NULL,
+    completion_date VARCHAR (255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE request_sent (
